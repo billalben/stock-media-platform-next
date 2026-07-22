@@ -126,7 +126,7 @@ export default function Header() {
           Pixstock
         </Link>
 
-        <div className="flex-1 flex justify-center mx-2">
+        <div className="flex-1 flex justify-end md:justify-center mx-2">
           <Suspense fallback={null}>
             <SearchBar />
           </Suspense>
