@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import VideoCard from "@/components/VideoCard";
 import MasonryGrid from "@/components/MasonryGrid";
 import InfiniteScroll from "@/components/InfiniteScroll";
@@ -19,6 +19,7 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
   const [initialLoading, setInitialLoading] = useState(true);
   const [orientation, setOrientation] = useState("");
   const [size, setSize] = useState("");
+  const initialQueryRef = useRef(initialQuery);
 
   const fetchVideos = useCallback(
     async (
@@ -58,9 +59,8 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
   );
 
   useEffect(() => {
-     
-    fetchVideos(1, initialQuery, "", "", true);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    fetchVideos(1, initialQueryRef.current, "", "", true);
+  }, [fetchVideos]);
 
   const loadMore = useCallback(() => {
     if (loading || !hasMore) return;

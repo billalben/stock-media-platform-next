@@ -20,7 +20,7 @@ export default function FavoritesContent() {
   return (
     <>
       {/* Segment toggle */}
-      <div className="flex border border-outline rounded-full overflow-hidden my-4 max-w-xs">
+      <div className="flex border border-outline rounded-full overflow-hidden my-4 w-full">
         <button
           onClick={() => setTab("photos")}
           className={`flex-1 flex justify-center items-center gap-2 h-10 px-3 text-label-large

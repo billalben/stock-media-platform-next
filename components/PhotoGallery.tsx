@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import PhotoCard from "@/components/PhotoCard";
 import MasonryGrid from "@/components/MasonryGrid";
 import InfiniteScroll from "@/components/InfiniteScroll";
@@ -20,6 +20,7 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
   const [orientation, setOrientation] = useState("");
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
+  const initialQueryRef = useRef(initialQuery);
 
   const fetchPhotos = useCallback(
     async (
@@ -61,9 +62,8 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
   );
 
   useEffect(() => {
-     
-    fetchPhotos(1, initialQuery, "", "", "", true);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    fetchPhotos(1, initialQueryRef.current, "", "", "", true);
+  }, [fetchPhotos]);
 
   const loadMore = useCallback(() => {
     if (loading || !hasMore) return;
