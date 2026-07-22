@@ -1,185 +1,150 @@
+import type React from "react";
 import Link from "next/link";
+
+type BannerVariant = "primary" | "secondary" | "tertiary";
+
+function BannerGridItem({
+  type,
+  src,
+  area,
+}: {
+  type: "image" | "video";
+  src: string;
+  area: string;
+}) {
+  if (type === "video") {
+    return (
+      <div className="banner-grid-item" style={{ gridArea: area }}>
+        <video autoPlay muted loop playsInline {...({ loading: "lazy" } as React.VideoHTMLAttributes<HTMLVideoElement>)}>
+          <source src={src} type="video/mp4" />
+        </video>
+      </div>
+    );
+  }
+  return (
+    <div
+      className="banner-grid-item"
+      style={{ gridArea: area, backgroundImage: `url(${src})` }}
+    />
+  );
+}
+
+function BannerGrid({
+  items,
+}: {
+  items: { type: "image" | "video"; src: string }[];
+}) {
+  return (
+    <div className="banner-grid">
+      {items.map((item, i) => (
+        <BannerGridItem
+          key={i}
+          type={item.type}
+          src={item.src}
+          area={`b${i + 1}`}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function BannerSection() {
   return (
-    <section
-      className="flex gap-4 px-4 pb-[18px] mb-6 overflow-x-auto snap-x snap-mandatory scroll-px-4"
-      aria-label="Banner"
-    >
-      {/* Photos Banner */}
-      <div className="banner-card primary shrink-0 w-full h-[360px] md:h-[420px] xl:h-[560px] rounded-3xl relative flex items-end overflow-hidden snap-start z-[1] bg-primary-container text-on-primary-container">
-        <div className="absolute inset-0 z-[-1] grid gap-3 grid-cols-8 grid-rows-5 -top-4 -left-4 -right-4 bottom-[28%] md:bottom-[-16px] md:left-[32%] md:top-[-16px] md:right-[-16px]">
-          <div
-            className="rounded-2xl bg-on-primary-container bg-cover bg-center"
-            style={{
-              gridArea: "b1",
-              backgroundImage: "url(/assets/images/photo-banner-1.jpg)",
-            }}
-          />
-          <div
-            className="rounded-2xl bg-on-primary-container bg-cover bg-center"
-            style={{
-              gridArea: "b2",
-              backgroundImage: "url(/assets/images/photo-banner-2.jpg)",
-            }}
-          />
-          <div
-            className="rounded-2xl bg-on-primary-container bg-cover bg-center"
-            style={{
-              gridArea: "b3",
-              backgroundImage: "url(/assets/images/photo-banner-3.jpg)",
-            }}
-          />
-          <div
-            className="rounded-2xl bg-on-primary-container bg-cover bg-center"
-            style={{
-              gridArea: "b4",
-              backgroundImage: "url(/assets/images/photo-banner-4.jpg)",
-            }}
-          />
-          <div
-            className="rounded-2xl bg-on-primary-container bg-cover bg-center"
-            style={{
-              gridArea: "b5",
-              backgroundImage: "url(/assets/images/photo-banner-5.jpg)",
-            }}
-          />
-          <div
-            className="rounded-2xl bg-on-primary-container bg-cover bg-center"
-            style={{
-              gridArea: "b6",
-              backgroundImage: "url(/assets/images/photo-banner-6.jpg)",
-            }}
-          />
-        </div>
+    <section className="banner" aria-label="Banner">
+      {/* Primary: Photos */}
+      <BannerCard
+        variant="primary"
+        title="High quality stock photos for free!"
+        description="Explore our exceptional collection of high-quality stock photos."
+        href="/photos"
+      >
+        <BannerGrid
+          items={[
+            { type: "image", src: "/assets/images/photo-banner-1.jpg" },
+            { type: "image", src: "/assets/images/photo-banner-2.jpg" },
+            { type: "image", src: "/assets/images/photo-banner-3.jpg" },
+            { type: "image", src: "/assets/images/photo-banner-4.jpg" },
+            { type: "image", src: "/assets/images/photo-banner-5.jpg" },
+            { type: "image", src: "/assets/images/photo-banner-6.jpg" },
+          ]}
+        />
+      </BannerCard>
 
-        <div className="w-full h-full grid content-end md:content-center gap-3 p-6 md:p-8 xl:p-[84px] bg-gradient-to-t md:bg-gradient-to-l from-primary-container to-transparent">
-          <h3 className="text-headline-medium md:text-display-small xl:text-display-large max-w-[16ch]">
-            High quality stock photos for free!
-          </h3>
-          <p className="text-body-large hidden md:block md:max-w-[40%]">
-            Explore our exceptional collection of high-quality stock photos.
-          </p>
-          <Link
-            href="/photos"
-            className="btn-primary h-10 px-6 rounded-full flex items-center gap-2 text-label-large max-w-max"
-          >
-            Explore Now
-          </Link>
-        </div>
-      </div>
+      {/* Secondary: Videos */}
+      <BannerCard
+        variant="secondary"
+        title="Top rated stock Videos for free!"
+        description="Our curated selection videos is sure to inspire and captivate."
+        href="/videos"
+      >
+        <BannerGrid
+          items={[
+            { type: "video", src: "/assets/videos/video-banner-1.mp4" },
+            { type: "video", src: "/assets/videos/video-banner-2.mp4" },
+            { type: "video", src: "/assets/videos/video-banner-3.mp4" },
+            { type: "video", src: "/assets/videos/video-banner-4.mp4" },
+            { type: "video", src: "/assets/videos/video-banner-5.mp4" },
+            { type: "video", src: "/assets/videos/video-banner-6.mp4" },
+          ]}
+        />
+      </BannerCard>
 
-      {/* Videos Banner */}
-      <div className="banner-card secondary shrink-0 w-full h-[360px] md:h-[420px] xl:h-[560px] rounded-3xl relative flex items-end overflow-hidden snap-start z-[1] bg-secondary-container text-on-secondary-container">
-        <div className="absolute inset-0 z-[-1] grid gap-3 grid-cols-8 grid-rows-5 -top-4 -left-4 -right-4 bottom-[28%] md:bottom-[-16px] md:left-[32%] md:top-[-16px] md:right-[-16px]">
-          {["1", "2", "3", "4", "5", "6"].map((n) => (
-            <div key={n} className="rounded-2xl overflow-hidden bg-on-secondary-container" style={{ gridArea: `b${n}` }}>
-              <video
-                className="w-full h-full object-cover scale-105"
-                autoPlay
-                muted
-                loop
-                playsInline
-              >
-                <source
-                  src={`/assets/videos/video-banner-${n}.mp4`}
-                  type="video/mp4"
-                />
-              </video>
-            </div>
-          ))}
-        </div>
-
-        <div className="w-full h-full grid content-end md:content-center gap-3 p-6 md:p-8 xl:p-[84px] bg-gradient-to-t md:bg-gradient-to-l from-secondary-container to-transparent">
-          <h3 className="text-headline-medium md:text-display-small xl:text-display-large max-w-[16ch]">
-            Top rated stock Videos for free!
-          </h3>
-          <p className="text-body-large hidden md:block md:max-w-[40%]">
-            Our curated selection videos is sure to inspire and captivate.
-          </p>
-          <Link
-            href="/videos"
-            className="btn-secondary h-10 px-6 rounded-full flex items-center gap-2 text-label-large max-w-max bg-secondary text-on-secondary"
-          >
-            Explore Now
-          </Link>
-        </div>
-      </div>
-
-      {/* Collections Banner */}
-      <div className="banner-card tertiary shrink-0 w-full h-[360px] md:h-[420px] xl:h-[560px] rounded-3xl relative flex items-end overflow-hidden snap-start z-[1] bg-tertiary-container text-on-tertiary-container">
-        <div className="absolute inset-0 z-[-1] grid gap-3 grid-cols-8 grid-rows-5 -top-4 -left-4 -right-4 bottom-[28%] md:bottom-[-16px] md:left-[32%] md:top-[-16px] md:right-[-16px]">
-          <div
-            className="rounded-2xl bg-on-tertiary-container bg-cover bg-center"
-            style={{
-              gridArea: "b1",
-              backgroundImage: "url(/assets/images/collection-banner-1.jpg)",
-            }}
-          />
-          <div className="rounded-2xl overflow-hidden bg-on-tertiary-container" style={{ gridArea: "b2" }}>
-            <video
-              className="w-full h-full object-cover scale-105"
-              autoPlay
-              muted
-              loop
-              playsInline
-            >
-              <source src="/assets/videos/collection-banner-2.mp4" type="video/mp4" />
-            </video>
-          </div>
-          <div
-            className="rounded-2xl bg-on-tertiary-container bg-cover bg-center"
-            style={{
-              gridArea: "b3",
-              backgroundImage: "url(/assets/images/collection-banner-3.jpg)",
-            }}
-          />
-          <div
-            className="rounded-2xl bg-on-tertiary-container bg-cover bg-center"
-            style={{
-              gridArea: "b4",
-              backgroundImage: "url(/assets/images/collection-banner-4.jpg)",
-            }}
-          />
-          <div className="rounded-2xl overflow-hidden bg-on-tertiary-container" style={{ gridArea: "b5" }}>
-            <video
-              className="w-full h-full object-cover scale-105"
-              autoPlay
-              muted
-              loop
-              playsInline
-            >
-              <source src="/assets/videos/collection-banner-5.mp4" type="video/mp4" />
-            </video>
-          </div>
-          <div className="rounded-2xl overflow-hidden bg-on-tertiary-container" style={{ gridArea: "b6" }}>
-            <video
-              className="w-full h-full object-cover scale-105"
-              autoPlay
-              muted
-              loop
-              playsInline
-            >
-              <source src="/assets/videos/collection-banner-6.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
-
-        <div className="w-full h-full grid content-end md:content-center gap-3 p-6 md:p-8 xl:p-[84px] bg-gradient-to-t md:bg-gradient-to-l from-tertiary-container to-transparent">
-          <h3 className="text-headline-medium md:text-display-small xl:text-display-large max-w-[16ch]">
-            Best collections with best medias!
-          </h3>
-          <p className="text-body-large hidden md:block md:max-w-[40%]">
-            Discover a treasure trove of stunning images, captivating videos.
-          </p>
-          <Link
-            href="/collections"
-            className="btn-tertiary h-10 px-6 rounded-full flex items-center gap-2 text-label-large max-w-max bg-tertiary text-on-tertiary"
-          >
-            Explore Now
-          </Link>
-        </div>
-      </div>
+      {/* Tertiary: Collections (mixed) */}
+      <BannerCard
+        variant="tertiary"
+        title="Best collections with best medias!"
+        description="Discover a treasure trove of stunning images, captivating videos."
+        href="/collections"
+      >
+        <BannerGrid
+          items={[
+            { type: "image", src: "/assets/images/collection-banner-1.jpg" },
+            { type: "video", src: "/assets/videos/collection-banner-2.mp4" },
+            { type: "image", src: "/assets/images/collection-banner-3.jpg" },
+            { type: "image", src: "/assets/images/collection-banner-4.jpg" },
+            { type: "video", src: "/assets/videos/collection-banner-5.mp4" },
+            { type: "video", src: "/assets/videos/collection-banner-6.mp4" },
+          ]}
+        />
+      </BannerCard>
     </section>
+  );
+}
+
+function BannerCard({
+  variant,
+  title,
+  description,
+  href,
+  children,
+}: {
+  variant: BannerVariant;
+  title: string;
+  description: string;
+  href: string;
+  children: React.ReactNode;
+}) {
+  const btnClass =
+    variant === "primary"
+      ? "btn-primary"
+      : variant === "secondary"
+        ? "btn-secondary"
+        : "btn-tertiary";
+
+  return (
+    <div className={`banner-card ${variant}`}>
+      {children}
+
+      <div className="banner-content">
+        <h3 className="banner-title">{title}</h3>
+        <p className="banner-text">{description}</p>
+        <Link
+          href={href}
+          className={`${btnClass} h-10 px-6 rounded-full flex items-center gap-2 max-w-max`}
+        >
+          <span className="text-label-large font-normal">Explore Now</span>
+        </Link>
+      </div>
+    </div>
   );
 }
