@@ -25,11 +25,15 @@ const NAV_ITEMS = [
   { href: "/favorites", label: "Favorite", Icon: Heart },
 ];
 
+const DETAIL_PATTERN = /^\/(photos|videos|collections)\/\d+$/;
+
 export default function Header() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const [navOpen, setNavOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const isDetailPage = DETAIL_PATTERN.test(pathname);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -43,6 +47,10 @@ export default function Header() {
   }, [navOpen]);
 
   const closeNav = () => setNavOpen(false);
+
+  if (isDetailPage) {
+    return null;
+  }
 
   return (
     <>

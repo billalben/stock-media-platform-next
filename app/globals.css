@@ -168,13 +168,32 @@
 }
 
 @keyframes skeleton-loading {
-  0% { opacity: 0.5; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes loading {
-  0% { rotate: 0deg; }
-  100% { rotate: 360deg; }
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
+
+@keyframes menu-in {
+  from {
+    scale: 0.95;
+    opacity: 0;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+  }
 }
 
 @layer base {
@@ -196,6 +215,12 @@
   button:disabled {
     cursor: default;
     opacity: 0.5;
+  }
+}
+
+@media (width >= 1280px) {
+  #main-wrapper:has([data-detail-page]) {
+    margin-left: 0;
   }
 }
 
@@ -319,6 +344,29 @@
       0 1px 3px 1px rgba(0, 0, 0, 0.15);
   }
 
+  .split-btn {
+    background-color: var(--_primary);
+    color: var(--_on-primary);
+    display: flex;
+    align-items: center;
+    height: 40px;
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  .split-btn a,
+  .split-btn button {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 100%;
+  }
+
+  .split-btn a:hover,
+  .split-btn button:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
   .banner {
     display: flex;
     gap: 16px;
@@ -404,7 +452,7 @@
     right: -16px;
     bottom: 28%;
     display: grid;
-    gap: 12px;
+    gap: 8px;
     grid-template-areas:
       "b1 b1 b2 b2 b3 b3 b3 b3" "b1 b1 b2 b2 b3 b3 b3 b3"
       "b4 b4 b2 b2 b3 b3 b3 b3" "b4 b4 b5 b5 b5 b6 b6 b6"
