@@ -43,7 +43,9 @@ export default function Header() {
 
   useEffect(() => {
     document.body.style.overflow = navOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [navOpen]);
 
   const closeNav = () => setNavOpen(false);
@@ -55,19 +57,16 @@ export default function Header() {
   return (
     <>
       {navOpen && (
-        <div
-          className="fixed inset-0 z-30 bg-scrim/50"
-          onClick={closeNav}
-        />
+        <div className="fixed inset-0 z-30 bg-scrim/50" onClick={closeNav} />
       )}
 
       <nav
-        className={`fixed top-0 left-0 bottom-0 z-40 bg-surface rounded-r-2xl transition-all duration-[400ms] overflow-hidden
+        className={`fixed top-0 left-0 bottom-0 z-40 bg-surface rounded-r-2xl transition-all duration-400 overflow-hidden
           ${navOpen ? "w-80 visible" : "w-0 invisible"}
-          xl:w-[360px] xl:visible xl:rounded-none`}
+          xl:w-90 xl:visible xl:rounded-none`}
       >
         <div
-          className={`px-3 pt-2 pb-3 transition-opacity duration-[250ms] ${navOpen ? "opacity-100" : "opacity-0"} xl:opacity-100`}
+          className={`px-3 pt-2 pb-3 transition-opacity duration-250 ${navOpen ? "opacity-100" : "opacity-0"} xl:opacity-100`}
         >
           <div className="flex items-center gap-4 px-4 h-16">
             <button
@@ -77,29 +76,38 @@ export default function Header() {
             >
               <ArrowLeft size={24} />
             </button>
-            <Link href="/" className="text-[2.6rem] font-medium text-primary tracking-[-0.5px] leading-7">
+            <Link
+              href="/"
+              className="text-[2.6rem] font-medium text-primary tracking-[-0.5px] leading-7"
+            >
               Pixstock
             </Link>
           </div>
         </div>
 
         <ul
-          className={`px-3 transition-opacity duration-[250ms] ${navOpen ? "opacity-100" : "opacity-0"} xl:opacity-100`}
+          className={`px-3 transition-opacity duration-250 ${navOpen ? "opacity-100" : "opacity-0"} xl:opacity-100`}
         >
           {NAV_ITEMS.map((item) => {
-            const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+            const isActive =
+              pathname === item.href ||
+              (item.href !== "/" && pathname.startsWith(item.href));
             return (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   onClick={closeNav}
                   className={`flex items-center gap-5 w-full h-14 px-4 rounded-full capitalize text-label-large transition-colors
-                    ${isActive
-                      ? "bg-secondary-container text-on-secondary-container"
-                      : "text-on-surface hover:bg-on-surface/[0.08]"
+                    ${
+                      isActive
+                        ? "bg-secondary-container text-on-secondary-container"
+                        : "text-on-surface hover:bg-on-surface/8"
                     }`}
                 >
-                  <item.Icon size={29} fill={isActive ? "currentColor" : "none"} />
+                  <item.Icon
+                    size={29}
+                    fill={isActive ? "currentColor" : "none"}
+                  />
                   {item.label}
                 </Link>
               </li>
@@ -112,7 +120,7 @@ export default function Header() {
       <header
         className={`fixed top-0 right-0 left-0 z-20 flex items-center h-16 px-1 transition-colors
           ${scrolled ? "bg-surface-container" : "bg-surface"}
-          xl:left-[360px] xl:bg-background`}
+          xl:left-90 xl:bg-background`}
       >
         <button
           className="icon-btn xl:hidden"
@@ -122,7 +130,10 @@ export default function Header() {
           <Menu size={24} />
         </button>
 
-        <Link href="/" className="text-[2.6rem] font-medium text-primary mx-1 xl:hidden">
+        <Link
+          href="/"
+          className="text-[2.6rem] font-medium text-primary mx-1 xl:hidden"
+        >
           Pixstock
         </Link>
 
@@ -141,7 +152,7 @@ export default function Header() {
         </button>
       </header>
 
-      <div className="h-16 xl:ml-[360px]" />
+      <div className="h-16 xl:ml-90" />
     </>
   );
 }

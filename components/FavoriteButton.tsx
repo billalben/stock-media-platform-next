@@ -12,7 +12,12 @@ interface FavoriteButtonProps {
   small?: boolean;
 }
 
-export default function FavoriteButton({ type, id, data, small }: FavoriteButtonProps) {
+export default function FavoriteButton({
+  type,
+  id,
+  data,
+  small,
+}: FavoriteButtonProps) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const btnRef = useRef<HTMLButtonElement>(null);
   const active = isFavorite(type, id);
@@ -27,7 +32,7 @@ export default function FavoriteButton({ type, id, data, small }: FavoriteButton
   return (
     <button
       ref={btnRef}
-      className={`icon-btn ${small ? "!w-10 !h-10 !min-w-10" : ""} ${active ? "active" : ""}`}
+      className={`icon-btn ${small ? "w-10! h-10! min-w-10!" : ""} ${active ? "active" : ""}`}
       onClick={handleClick}
       aria-label={active ? "Remove from favorites" : "Add to favorites"}
     >

@@ -27,7 +27,7 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
       query: string,
       ori: string,
       sz: string,
-      reset = false
+      reset = false,
     ) => {
       setLoading(true);
       try {
@@ -55,7 +55,7 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
         setInitialLoading(false);
       }
     },
-    []
+    [],
   );
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
         <MasonryGrid>
           {Array.from({ length: 18 }).map((_, i) => (
             <div key={i} className="break-inside-avoid mb-2 md:mb-3">
-              <div className="bg-surface-container-highest rounded-xl animate-skeleton aspect-[2/3]" />
+              <div className="bg-surface-container-highest rounded-xl animate-skeleton aspect-2/3" />
             </div>
           ))}
         </MasonryGrid>
@@ -113,7 +113,11 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
         </div>
       )}
 
-      <InfiniteScroll hasMore={hasMore} loading={loading} onLoadMore={loadMore} />
+      <InfiniteScroll
+        hasMore={hasMore}
+        loading={loading}
+        onLoadMore={loadMore}
+      />
     </>
   );
 }

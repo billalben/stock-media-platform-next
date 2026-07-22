@@ -102,11 +102,11 @@ function FilterChip<T extends { label: string; value: string; hex?: string }>({
       </div>
 
       {open && (
-        <div className="absolute top-full left-0 mt-1 py-2 min-w-[160px] w-max bg-surface-container rounded-lg shadow-[0_1px_2px_rgba(0,0,0,0.3),0_2px_6px_2px_rgba(0,0,0,0.15)] z-50 animate-[menu-in_200ms_ease_forwards]">
+        <div className="absolute top-full left-0 mt-1 py-2 min-w-40 w-max bg-surface-container rounded-lg shadow-[0_1px_2px_rgba(0,0,0,0.3),0_2px_6px_2px_rgba(0,0,0,0.15)] z-50 animate-[menu-in_200ms_ease_forwards]">
           {options.map((opt) => (
             <button
               key={opt.value}
-              className="flex items-center gap-3 w-full h-12 px-4 text-body-large text-on-surface hover:bg-on-surface/[0.08]"
+              className="flex items-center gap-3 w-full h-12 px-4 text-body-large text-on-surface hover:bg-on-surface/8"
               onClick={() => {
                 onSelect(opt.value);
                 setOpen(false);

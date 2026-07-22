@@ -29,7 +29,7 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
       ori: string,
       sz: string,
       clr: string,
-      reset = false
+      reset = false,
     ) => {
       setLoading(true);
       try {
@@ -58,7 +58,7 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
         setInitialLoading(false);
       }
     },
-    []
+    [],
   );
 
   useEffect(() => {
@@ -70,7 +70,16 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
     const nextPage = page + 1;
     setPage(nextPage);
     fetchPhotos(nextPage, initialQuery, orientation, size, color);
-  }, [page, loading, hasMore, initialQuery, orientation, size, color, fetchPhotos]);
+  }, [
+    page,
+    loading,
+    hasMore,
+    initialQuery,
+    orientation,
+    size,
+    color,
+    fetchPhotos,
+  ]);
 
   return (
     <>
@@ -104,11 +113,8 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
       {initialLoading ? (
         <MasonryGrid>
           {Array.from({ length: 18 }).map((_, i) => (
-            <div
-              key={i}
-              className="break-inside-avoid mb-2 md:mb-3"
-            >
-              <div className="bg-surface-container-highest rounded-xl animate-skeleton aspect-[2/3]" />
+            <div key={i} className="break-inside-avoid mb-2 md:mb-3">
+              <div className="bg-surface-container-highest rounded-xl animate-skeleton aspect-2/3" />
             </div>
           ))}
         </MasonryGrid>
@@ -124,7 +130,11 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
         </div>
       )}
 
-      <InfiniteScroll hasMore={hasMore} loading={loading} onLoadMore={loadMore} />
+      <InfiniteScroll
+        hasMore={hasMore}
+        loading={loading}
+        onLoadMore={loadMore}
+      />
     </>
   );
 }

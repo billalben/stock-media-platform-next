@@ -6,13 +6,16 @@ export default function Footer() {
       <div className="container">
         <div className="bg-surface-container text-on-surface-variant p-4 rounded-2xl md:grid md:grid-cols-2 md:items-end md:gap-6">
           <div>
-            <Link href="/" className="text-[2.6rem] font-medium text-primary inline-block">
+            <Link
+              href="/"
+              className="text-[2.6rem] font-medium text-primary inline-block"
+            >
               Pixstock
             </Link>
-            <p className="text-body-small leading-[18px] my-2 md:mb-1">
+            <p className="text-body-small leading-4.5 my-2 md:mb-1">
               Pixstock is a stock photo app developed by{" "}
-              <span className="text-primary">Billal Benz</span> and all Photos and
-              Videos provided by{" "}
+              <span className="text-primary">Billal Benz</span> and all Photos
+              and Videos provided by{" "}
               <a
                 href="https://pexels.com/"
                 target="_blank"

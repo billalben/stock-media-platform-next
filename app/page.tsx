@@ -28,8 +28,7 @@ async function HomePageData() {
     return { photosRes, videosRes, collectionsRes };
   } catch (error) {
     return {
-      error:
-        error instanceof Error ? error.message : "Failed to load content",
+      error: error instanceof Error ? error.message : "Failed to load content",
     };
   }
 }
@@ -43,7 +42,10 @@ export default async function HomePage() {
         <BannerSection />
 
         {/* Featured Photos */}
-        <section className="section mb-6 md:mb-9" aria-labelledby="featured-label">
+        <section
+          className="section mb-6 md:mb-9"
+          aria-labelledby="featured-label"
+        >
           <div className="container">
             <h2
               id="featured-label"
@@ -60,7 +62,7 @@ export default async function HomePage() {
                       <PhotoCard key={photo.id} photo={photo} />
                     ))}
                   </MasonryGrid>
-                  <div className="absolute -bottom-0.5 left-0 w-full pt-16 pb-6 grid place-items-center bg-gradient-to-t from-background from-30% to-transparent z-[1] pointer-events-none">
+                  <div className="absolute -bottom-0.5 left-0 w-full pt-16 pb-6 grid place-items-center bg-linear-to-t from-background from-30% to-transparent z-1 pointer-events-none">
                     <Link
                       href="/photos"
                       className="btn-primary h-10 px-6 rounded-full flex items-center gap-2 text-label-large pointer-events-auto"
@@ -79,7 +81,10 @@ export default async function HomePage() {
         </section>
 
         {/* Popular Videos */}
-        <section className="section mb-6 md:mb-9" aria-labelledby="popular-video-label">
+        <section
+          className="section mb-6 md:mb-9"
+          aria-labelledby="popular-video-label"
+        >
           <div className="container">
             <h2
               id="popular-video-label"
@@ -95,7 +100,7 @@ export default async function HomePage() {
                     <VideoCard key={video.id} video={video} />
                   ))}
                 </MasonryGrid>
-                <div className="absolute -bottom-0.5 left-0 w-full pt-16 pb-6 grid place-items-center bg-gradient-to-t from-background from-30% to-transparent z-[1] pointer-events-none">
+                <div className="absolute -bottom-0.5 left-0 w-full pt-16 pb-6 grid place-items-center bg-linear-to-t from-background from-30% to-transparent z-1 pointer-events-none">
                   <Link
                     href="/videos"
                     className="btn-primary h-10 px-6 rounded-full flex items-center gap-2 text-label-large pointer-events-auto"
@@ -113,7 +118,10 @@ export default async function HomePage() {
         </section>
 
         {/* Featured Collections */}
-        <section className="section mb-6 md:mb-9" aria-labelledby="collection-label">
+        <section
+          className="section mb-6 md:mb-9"
+          aria-labelledby="collection-label"
+        >
           <div className="container">
             <h2
               id="collection-label"
@@ -126,7 +134,10 @@ export default async function HomePage() {
               <>
                 <div className="md:grid md:grid-cols-2 xl:grid-cols-3 xl:gap-x-6">
                   {data.collectionsRes.collections.map((collection) => (
-                    <CollectionCard key={collection.id} collection={collection} />
+                    <CollectionCard
+                      key={collection.id}
+                      collection={collection}
+                    />
                   ))}
                 </div>
                 <div className="flex justify-center mt-3 md:mt-6">

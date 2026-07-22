@@ -11,7 +11,9 @@ interface CollectionsPageProps {
   searchParams: Promise<{ query?: string }>;
 }
 
-export default async function CollectionsPage({ searchParams }: CollectionsPageProps) {
+export default async function CollectionsPage({
+  searchParams,
+}: CollectionsPageProps) {
   const { query = "" } = await searchParams;
 
   return (
@@ -27,7 +29,7 @@ export default async function CollectionsPage({ searchParams }: CollectionsPageP
               {Array.from({ length: 12 }).map((_, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between h-[72px] px-4 border-b border-outline-variant"
+                  className="flex items-center justify-between h-18 px-4 border-b border-outline-variant"
                 >
                   <div className="space-y-1">
                     <div className="w-48 h-4 bg-surface-container-highest rounded animate-skeleton" />

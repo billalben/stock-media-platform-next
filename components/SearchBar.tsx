@@ -2,14 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  Search,
-  X,
-  ArrowLeft,
-  Image,
-  Video,
-  History,
-} from "lucide-react";
+import { Search, X, ArrowLeft, Image, Video, History } from "lucide-react";
 import { useSearchHistory } from "@/hooks/useSearchHistory";
 
 type SearchType = "photos" | "videos";
@@ -37,7 +30,10 @@ export default function SearchBar() {
   useEffect(() => {
     if (!focused) return;
     const handleClick = (e: MouseEvent) => {
-      if (desktopRef.current && !desktopRef.current.contains(e.target as Node)) {
+      if (
+        desktopRef.current &&
+        !desktopRef.current.contains(e.target as Node)
+      ) {
         setFocused(false);
       }
     };
@@ -78,7 +74,10 @@ export default function SearchBar() {
       </button>
 
       {/* Desktop: inline search with dropdown */}
-      <div ref={desktopRef} className="hidden md:block relative w-full max-w-[560px] xl:max-w-[720px]">
+      <div
+        ref={desktopRef}
+        className="hidden md:block relative w-full max-w-140 xl:max-w-180"
+      >
         <div className="bg-surface-container-high rounded-3xl overflow-hidden focus-within:shadow-md">
           <div className="flex items-center h-12 px-4 gap-4">
             <Search size={32} className="text-on-surface-variant shrink-0" />
@@ -93,7 +92,7 @@ export default function SearchBar() {
             />
             {query && (
               <button
-                className="icon-btn !w-8 !h-8 !min-w-8"
+                className="icon-btn w-8! h-8! min-w-8!"
                 onClick={() => setQuery("")}
                 aria-label="Clear"
               >
@@ -142,10 +141,13 @@ export default function SearchBar() {
                 {history.slice(0, 5).map((item) => (
                   <button
                     key={item}
-                    className="flex items-center gap-4 w-full h-12 px-4 text-on-surface text-body-large hover:bg-on-surface/[0.08]"
+                    className="flex items-center gap-4 w-full h-12 px-4 text-on-surface text-body-large hover:bg-on-surface/8"
                     onClick={() => handleHistoryClick(item)}
                   >
-                    <History size={28} className="text-on-surface-variant shrink-0" />
+                    <History
+                      size={28}
+                      className="text-on-surface-variant shrink-0"
+                    />
                     <span className="truncate">{item}</span>
                   </button>
                 ))}
@@ -158,7 +160,7 @@ export default function SearchBar() {
       {/* Mobile: fullscreen search overlay */}
       {open && (
         <div className="md:hidden fixed inset-0 z-50 bg-surface-container-high">
-          <div className="flex items-center gap-2 h-[72px] px-1 border-b border-outline">
+          <div className="flex items-center gap-2 h-18 px-1 border-b border-outline">
             <button
               className="icon-btn"
               onClick={() => setOpen(false)}
@@ -181,7 +183,10 @@ export default function SearchBar() {
             {query && (
               <button
                 className="icon-btn"
-                onClick={() => { setQuery(""); inputRef.current?.focus(); }}
+                onClick={() => {
+                  setQuery("");
+                  inputRef.current?.focus();
+                }}
                 aria-label="Clear"
               >
                 <X size={24} />

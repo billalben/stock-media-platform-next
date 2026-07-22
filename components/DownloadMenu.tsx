@@ -46,7 +46,7 @@ export default function DownloadMenu({ downloads }: DownloadMenuProps) {
       </div>
 
       {open && (
-        <div className="absolute top-full right-0 mt-2 py-2 min-w-[120px] w-max bg-surface-container rounded-lg shadow-[0_1px_2px_rgba(0,0,0,0.3),0_2px_6px_2px_rgba(0,0,0,0.15)] z-50 origin-top-right scale-95 opacity-0 animate-[menu-in_200ms_ease_forwards]">
+        <div className="absolute top-full right-0 mt-2 py-2 min-w-30 w-max bg-surface-container rounded-lg shadow-[0_1px_2px_rgba(0,0,0,0.3),0_2px_6px_2px_rgba(0,0,0,0.15)] z-50 origin-top-right scale-95 opacity-0 animate-[menu-in_200ms_ease_forwards]">
           {downloads.map((d) => (
             <a
               key={d.url}
@@ -54,7 +54,7 @@ export default function DownloadMenu({ downloads }: DownloadMenuProps) {
               target="_blank"
               rel="noopener"
               download
-              className="flex items-center px-3 h-12 text-label-large text-on-surface hover:bg-on-surface/[0.08]"
+              className="flex items-center px-3 h-12 text-label-large text-on-surface hover:bg-on-surface/8"
               onClick={() => setOpen(false)}
             >
               {d.label}

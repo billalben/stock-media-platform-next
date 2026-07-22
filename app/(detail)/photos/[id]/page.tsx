@@ -62,10 +62,10 @@ export default async function PhotoDetailPage({ params }: Props) {
       />
 
       <main className="flex-1 pt-16">
-        <div className="container xl:max-w-[1440px] xl:grid xl:grid-cols-[1fr_minmax(0,1fr)] xl:items-start xl:gap-6">
+        <div className="container xl:max-w-360 xl:grid xl:grid-cols-[1fr_minmax(0,1fr)] xl:items-start xl:gap-6">
           {/* Photo Preview */}
-          <div className="detail-wrapper h-[588px] xl:h-[788px] grid grid-rows-[1fr_max-content] place-items-center xl:sticky xl:top-[calc(64px+12px)]">
-            <div className="max-w-full max-h-full mx-auto rounded-2xl overflow-hidden mb-2 xl:max-h-[760px]">
+          <div className="detail-wrapper h-147 xl:h-197 grid grid-rows-[1fr_max-content] place-items-center xl:sticky xl:top-19">
+            <div className="max-w-full max-h-full mx-auto rounded-2xl overflow-hidden mb-2 xl:max-h-190">
               <Image
                 src={photo.src.large2x}
                 alt={photo.alt}
@@ -96,7 +96,9 @@ export default async function PhotoDetailPage({ params }: Props) {
 
             {similar && similar.photos.length > 0 && (
               <section>
-                <h2 className="text-title-large mb-3 md:mb-5">More like this</h2>
+                <h2 className="text-title-large mb-3 md:mb-5">
+                  More like this
+                </h2>
                 <MasonryGrid>
                   {similar.photos
                     .filter((p) => p.id !== photo.id)

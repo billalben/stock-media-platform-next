@@ -18,9 +18,9 @@ export default function VideoCard({ video }: VideoCardProps) {
   const badgeRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  const sdVideo = video_files.find(
-    (f) => f.quality === "sd" && f.width < 1000
-  ) || video_files[0];
+  const sdVideo =
+    video_files.find((f) => f.quality === "sd" && f.width < 1000) ||
+    video_files[0];
 
   const handlePointerOver = useCallback(() => {
     timerRef.current = setTimeout(() => {
@@ -47,7 +47,10 @@ export default function VideoCard({ video }: VideoCardProps) {
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
     >
-      <div className="relative w-full" style={{ aspectRatio: `${width} / ${height}` }}>
+      <div
+        className="relative w-full"
+        style={{ aspectRatio: `${width} / ${height}` }}
+      >
         <video
           ref={videoRef}
           poster={image}
@@ -70,20 +73,17 @@ export default function VideoCard({ video }: VideoCardProps) {
         />
       </div>
 
-      <div
-        ref={badgeRef}
-        className="card-play-badge"
-      >
+      <div ref={badgeRef} className="card-play-badge">
         <Play size={16} />
       </div>
 
-      <div className="card-favorite-bar absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 to-transparent p-[5px] flex justify-end z-[2]">
+      <div className="card-favorite-bar absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/75 to-transparent p-1.25 flex justify-end z-2">
         <FavoriteButton type="videos" id={id} data={video} small />
       </div>
 
       <Link
         href={`/videos/${id}`}
-        className="absolute inset-0 z-[1]"
+        className="absolute inset-0 z-1"
         aria-label={`Video ${id}`}
       />
     </div>

@@ -12,28 +12,30 @@ export default function CollectionGallery() {
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
 
-  const fetchCollections = useCallback(async (pageNum: number, reset = false) => {
-    setLoading(true);
-    try {
-      const res = await fetch(
-        `/api/collections/featured?page=${pageNum}&per_page=30`
-      );
-      const data = await res.json();
+  const fetchCollections = useCallback(
+    async (pageNum: number, reset = false) => {
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `/api/collections/featured?page=${pageNum}&per_page=30`,
+        );
+        const data = await res.json();
 
-      setCollections((prev) =>
-        reset ? data.collections : [...prev, ...data.collections]
-      );
-      setHasMore(Boolean(data.next_page));
-    } catch {
-      setHasMore(false);
-    } finally {
-      setLoading(false);
-      setInitialLoading(false);
-    }
-  }, []);
+        setCollections((prev) =>
+          reset ? data.collections : [...prev, ...data.collections],
+        );
+        setHasMore(Boolean(data.next_page));
+      } catch {
+        setHasMore(false);
+      } finally {
+        setLoading(false);
+        setInitialLoading(false);
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
-     
     fetchCollections(1, true);
   }, [fetchCollections]);
 
@@ -50,7 +52,7 @@ export default function CollectionGallery() {
         {Array.from({ length: 12 }).map((_, i) => (
           <div
             key={i}
-            className="flex items-center justify-between h-[72px] px-4 border-b border-outline-variant"
+            className="flex items-center justify-between h-18 px-4 border-b border-outline-variant"
           >
             <div className="space-y-1">
               <div className="w-48 h-4 bg-surface-container-highest rounded animate-skeleton" />
