@@ -1,26 +1,228 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Light theme (default) */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --_bg: #fafdfc;
+  --_on-bg: #191c1c;
+  --_surface: #f7faf9;
+  --_on-surface: #191c1c;
+  --_surface-variant: #dae5e3;
+  --_on-surface-variant: #3f4948;
+  --_surface-container-high: #e6e9e8;
+  --_surface-container-highest: #e0e3e2;
+  --_surface-container: #eceeed;
+  --_outline: #6f7978;
+  --_outline-variant: #bec9c7;
+  --_primary: #006a67;
+  --_on-primary: #ffffff;
+  --_primary-container: #6ff7f2;
+  --_on-primary-container: #00201f;
+  --_secondary: #845400;
+  --_on-secondary: #ffffff;
+  --_secondary-container: #ffddb5;
+  --_on-secondary-container: #2a1800;
+  --_tertiary: #a93538;
+  --_on-tertiary: #ffffff;
+  --_tertiary-container: #ffdad8;
+  --_on-tertiary-container: #410006;
+  --_error: #ba1a1a;
+  --_on-error: #ffffff;
+  --_error-container: #ffdad6;
+  --_on-error-container: #410002;
+  --_inverse-surface: #2d3131;
+  --_inverse-on-surface: #eff1f0;
+  --_inverse-primary: #4edad5;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --_bg: #191c1c;
+  --_on-bg: #e0e3e2;
+  --_surface: #101414;
+  --_on-surface: #c4c7c6;
+  --_surface-variant: #3f4948;
+  --_on-surface-variant: #bec9c7;
+  --_surface-container-high: #272b2a;
+  --_surface-container-highest: #323535;
+  --_surface-container: #1d2020;
+  --_outline: #889392;
+  --_outline-variant: #3f4948;
+  --_primary: #4edad5;
+  --_on-primary: #003735;
+  --_primary-container: #00504e;
+  --_on-primary-container: #6ff7f2;
+  --_secondary: #ffb958;
+  --_on-secondary: #462b00;
+  --_secondary-container: #643f00;
+  --_on-secondary-container: #ffddb5;
+  --_tertiary: #ffb3b0;
+  --_on-tertiary: #68000f;
+  --_tertiary-container: #891c23;
+  --_on-tertiary-container: #ffdad8;
+  --_error: #ffb4ab;
+  --_on-error: #690005;
+  --_error-container: #93000a;
+  --_on-error-container: #ffdad6;
+  --_inverse-surface: #e0e3e2;
+  --_inverse-on-surface: #191c1c;
+  --_inverse-primary: #006a67;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--_bg);
+  --color-on-background: var(--_on-bg);
+  --color-surface: var(--_surface);
+  --color-on-surface: var(--_on-surface);
+  --color-surface-variant: var(--_surface-variant);
+  --color-on-surface-variant: var(--_on-surface-variant);
+  --color-surface-container-high: var(--_surface-container-high);
+  --color-surface-container-highest: var(--_surface-container-highest);
+  --color-surface-container: var(--_surface-container);
+  --color-outline: var(--_outline);
+  --color-outline-variant: var(--_outline-variant);
+  --color-primary: var(--_primary);
+  --color-on-primary: var(--_on-primary);
+  --color-primary-container: var(--_primary-container);
+  --color-on-primary-container: var(--_on-primary-container);
+  --color-secondary: var(--_secondary);
+  --color-on-secondary: var(--_on-secondary);
+  --color-secondary-container: var(--_secondary-container);
+  --color-on-secondary-container: var(--_on-secondary-container);
+  --color-tertiary: var(--_tertiary);
+  --color-on-tertiary: var(--_on-tertiary);
+  --color-tertiary-container: var(--_tertiary-container);
+  --color-on-tertiary-container: var(--_on-tertiary-container);
+  --color-error: var(--_error);
+  --color-on-error: var(--_on-error);
+  --color-error-container: var(--_error-container);
+  --color-on-error-container: var(--_on-error-container);
+  --color-inverse-surface: var(--_inverse-surface);
+  --color-inverse-on-surface: var(--_inverse-on-surface);
+  --color-inverse-primary: var(--_inverse-primary);
+  --color-scrim: #000000;
+
+  --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 28px;
+  --radius-full: 500px;
+
+  --text-display-large: 5.7rem;
+  --text-display-medium: 4.5rem;
+  --text-display-small: 3.6rem;
+  --text-headline-large: 3.2rem;
+  --text-headline-medium: 2.8rem;
+  --text-headline-small: 2.4rem;
+  --text-title-large: 2.2rem;
+  --text-title-medium: 1.6rem;
+  --text-title-small: 1.4rem;
+  --text-label-large: 1.4rem;
+  --text-label-medium: 1.2rem;
+  --text-label-small: 1.1rem;
+  --text-body-large: 1.6rem;
+  --text-body-medium: 1.4rem;
+  --text-body-small: 1.2rem;
+
+  --animate-skeleton: skeleton-loading 1000ms linear infinite alternate;
+  --animate-spin-loader: loading 500ms linear infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes skeleton-loading {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes loading {
+  0% { rotate: 0deg; }
+  100% { rotate: 360deg; }
+}
+
+@layer base {
+  html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--_bg);
+    color: var(--_on-bg);
+    font-size: 1.6rem;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  button:disabled {
+    cursor: default;
+    opacity: 0.5;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom component classes */
+@layer components {
+  .material-symbols-outlined {
+    display: block;
+    width: 1em;
+    height: 1em;
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  }
+
+  .icon-btn {
+    color: var(--_on-surface-variant);
+    min-width: 48px;
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .icon-btn.active {
+    color: var(--_primary);
+  }
+
+  .icon-btn.active .material-symbols-outlined {
+    font-variation-settings: "FILL" 1;
+  }
+
+  .card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .font-variation-filled {
+    font-variation-settings: "FILL" 1;
+  }
+
+  .btn-primary {
+    background-color: var(--_primary);
+    color: var(--_on-primary);
+  }
+
+  .btn-secondary {
+    background-color: var(--_secondary);
+    color: var(--_on-secondary);
+  }
+
+  .btn-tertiary {
+    background-color: var(--_tertiary);
+    color: var(--_on-tertiary);
+  }
+}
+
+/* Utility: container */
+@utility container {
+  padding-inline: 24px;
 }

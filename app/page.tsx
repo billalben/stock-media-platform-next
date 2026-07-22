@@ -1,65 +1,151 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import Link from "next/link";
+import {
+  getCuratedPhotos,
+  getPopularVideos,
+  getFeaturedCollections,
+} from "@/lib/pexels";
+import PhotoCard from "@/components/PhotoCard";
+import VideoCard from "@/components/VideoCard";
+import CollectionCard from "@/components/CollectionCard";
+import MasonryGrid from "@/components/MasonryGrid";
+import BannerSection from "@/components/BannerSection";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "Pixstock - A large stock library",
+  description:
+    "Explore our exceptional collection of high-quality stock photos and videos.",
+};
+
+async function HomePageData() {
+  try {
+    const [photosRes, videosRes, collectionsRes] = await Promise.all([
+      getCuratedPhotos(1, 10),
+      getPopularVideos(1, 16),
+      getFeaturedCollections(1, 18),
+    ]);
+
+    return { photosRes, videosRes, collectionsRes };
+  } catch (error) {
+    return {
+      error:
+        error instanceof Error ? error.message : "Failed to load content",
+    };
+  }
+}
+
+export default async function HomePage() {
+  const data = await HomePageData();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <main className="flex-1 pt-3">
+      <article>
+        <BannerSection />
+
+        {/* Featured Photos */}
+        <section className="section mb-6 md:mb-9" aria-labelledby="featured-label">
+          <div className="container">
+            <h2
+              id="featured-label"
+              className="text-title-large md:text-headline-small xl:text-headline-medium mb-3 md:mb-5 xl:mb-6"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              Featured photos
+            </h2>
+
+            {"photosRes" in data && data.photosRes ? (
+              <>
+                <div className="relative">
+                  <MasonryGrid>
+                    {data.photosRes.photos.map((photo) => (
+                      <PhotoCard key={photo.id} photo={photo} />
+                    ))}
+                  </MasonryGrid>
+                  <div className="absolute -bottom-0.5 left-0 w-full py-12 pb-6 grid place-items-center bg-gradient-to-t from-background to-transparent z-[1]">
+                    <Link
+                      href="/photos"
+                      className="btn-primary h-10 px-6 rounded-full flex items-center gap-2 text-label-large"
+                    >
+                      Explore more
+                    </Link>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="text-on-surface-variant py-8 text-center">
+                {"error" in data ? data.error : "Loading photos..."}
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Popular Videos */}
+        <section className="section mb-6 md:mb-9" aria-labelledby="popular-video-label">
+          <div className="container">
+            <h2
+              id="popular-video-label"
+              className="text-title-large md:text-headline-small xl:text-headline-medium mb-3 md:mb-5 xl:mb-6"
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+              Popular videos
+            </h2>
+
+            {"videosRes" in data && data.videosRes ? (
+              <div className="relative">
+                <MasonryGrid>
+                  {data.videosRes.videos.map((video) => (
+                    <VideoCard key={video.id} video={video} />
+                  ))}
+                </MasonryGrid>
+                <div className="absolute -bottom-0.5 left-0 w-full py-12 pb-6 grid place-items-center bg-gradient-to-t from-background to-transparent z-[1]">
+                  <Link
+                    href="/videos"
+                    className="btn-primary h-10 px-6 rounded-full flex items-center gap-2 text-label-large"
+                  >
+                    Explore more
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="text-on-surface-variant py-8 text-center">
+                {"error" in data ? data.error : "Loading videos..."}
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Featured Collections */}
+        <section className="section mb-6 md:mb-9" aria-labelledby="collection-label">
+          <div className="container">
+            <h2
+              id="collection-label"
+              className="text-title-large md:text-headline-small xl:text-headline-medium mb-3 md:mb-5 xl:mb-6"
+            >
+              Featured collections
+            </h2>
+
+            {"collectionsRes" in data && data.collectionsRes ? (
+              <>
+                <div className="md:grid md:grid-cols-2 xl:grid-cols-3 xl:gap-x-6">
+                  {data.collectionsRes.collections.map((collection) => (
+                    <CollectionCard key={collection.id} collection={collection} />
+                  ))}
+                </div>
+                <div className="flex justify-center mt-3 md:mt-6">
+                  <Link
+                    href="/collections"
+                    className="btn-primary h-10 px-6 rounded-full flex items-center gap-2 text-label-large"
+                  >
+                    More Collections
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <div className="text-on-surface-variant py-8 text-center">
+                {"error" in data ? data.error : "Loading collections..."}
+              </div>
+            )}
+          </div>
+        </section>
+      </article>
+    </main>
   );
 }
