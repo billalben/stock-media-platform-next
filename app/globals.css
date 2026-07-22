@@ -213,6 +213,24 @@
     overflow: hidden;
   }
 
+  .icon-btn::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    background-color: currentColor;
+    opacity: 0;
+    border-radius: inherit;
+    transition: opacity 200ms linear;
+  }
+
+  .icon-btn:hover::after {
+    opacity: 0.08;
+  }
+
+  .icon-btn:active::after {
+    opacity: 0.12;
+  }
+
   .icon-btn.active {
     color: var(--_primary);
   }
@@ -221,6 +239,51 @@
     position: relative;
     border-radius: 12px;
     overflow: hidden;
+    transition: box-shadow 200ms linear;
+  }
+
+  .card:hover {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.3),
+      0 1px 3px 1px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-favorite-bar {
+    transition: opacity 200ms linear;
+    pointer-events: none;
+  }
+
+  .card-favorite-bar .icon-btn {
+    pointer-events: auto;
+    color: #f0f1f4;
+  }
+
+  .card-favorite-bar .icon-btn.active {
+    color: #4edad5;
+  }
+
+  @media (width >= 900px) {
+    .card-favorite-bar {
+      opacity: 0;
+    }
+
+    .card:where(:hover, :focus-visible) .card-favorite-bar {
+      opacity: 1;
+    }
+  }
+
+  .card-play-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 24px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+    background-color: var(--_secondary-container);
+    color: var(--_on-secondary-container);
+    border-radius: 8px;
+    z-index: 2;
   }
 
   .btn-primary {
@@ -228,14 +291,32 @@
     color: var(--_on-primary);
   }
 
+  .btn-primary:hover {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.3),
+      0 1px 3px 1px rgba(0, 0, 0, 0.15);
+  }
+
   .btn-secondary {
     background-color: var(--_secondary);
     color: var(--_on-secondary);
   }
 
+  .btn-secondary:hover {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.3),
+      0 1px 3px 1px rgba(0, 0, 0, 0.15);
+  }
+
   .btn-tertiary {
     background-color: var(--_tertiary);
     color: var(--_on-tertiary);
+  }
+
+  .btn-tertiary:hover {
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.3),
+      0 1px 3px 1px rgba(0, 0, 0, 0.15);
   }
 
   .banner {

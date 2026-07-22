@@ -12,7 +12,7 @@ export default function PhotoCard({ photo }: PhotoCardProps) {
 
   return (
     <div
-      className="card card-photo break-inside-avoid mb-2 md:mb-3"
+      className="card break-inside-avoid mb-2 md:mb-3"
       style={{ backgroundColor: avg_color }}
     >
       <figure className="relative w-full" style={{ aspectRatio: `${width} / ${height}` }}>
@@ -26,7 +26,7 @@ export default function PhotoCard({ photo }: PhotoCardProps) {
         />
       </figure>
 
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 to-transparent p-[5px] flex justify-end z-[2]">
+      <div className="card-favorite-bar absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 to-transparent p-[5px] flex justify-end z-[2]">
         <FavoriteButton type="photos" id={id} data={photo} small />
       </div>
 

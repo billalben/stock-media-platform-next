@@ -15,20 +15,25 @@ export default function VideoCard({ video }: VideoCardProps) {
   const { id, width, height, image, video_files } = video;
   const videoRef = useRef<HTMLVideoElement>(null);
   const [loaded, setLoaded] = useState(false);
+  const badgeRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const sdVideo = video_files.find(
     (f) => f.quality === "sd" && f.width < 1000
   ) || video_files[0];
 
-  const handleMouseEnter = useCallback(() => {
+  const handlePointerOver = useCallback(() => {
     timerRef.current = setTimeout(() => {
+      const badge = badgeRef.current;
+      if (badge) badge.style.display = "none";
       videoRef.current?.play();
     }, 500);
   }, []);
 
-  const handleMouseLeave = useCallback(() => {
+  const handlePointerOut = useCallback(() => {
     clearTimeout(timerRef.current);
+    const badge = badgeRef.current;
+    if (badge) badge.style.display = "grid";
     const v = videoRef.current;
     if (v) {
       v.pause();
@@ -38,25 +43,23 @@ export default function VideoCard({ video }: VideoCardProps) {
 
   return (
     <div
-      className="card card-video break-inside-avoid mb-2 md:mb-3 bg-surface-container-highest"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      className="card break-inside-avoid mb-2 md:mb-3 bg-surface-container-highest"
+      onPointerOver={handlePointerOver}
+      onPointerOut={handlePointerOut}
     >
       <div className="relative w-full" style={{ aspectRatio: `${width} / ${height}` }}>
-        {loaded && (
-          <video
-            ref={videoRef}
-            poster={image}
-            muted
-            loop
-            preload="none"
-            playsInline
-            className="w-full h-full object-cover scale-105"
-            onLoadedData={() => setLoaded(true)}
-          >
-            <source src={sdVideo.link} type={sdVideo.file_type} />
-          </video>
-        )}
+        <video
+          ref={videoRef}
+          poster={image}
+          muted
+          loop
+          preload="none"
+          playsInline
+          className={`w-full h-full object-cover scale-105 ${loaded ? "opacity-100" : "opacity-0"}`}
+          onLoadedData={() => setLoaded(true)}
+        >
+          <source src={sdVideo.link} type={sdVideo.file_type} />
+        </video>
         <Image
           src={image}
           alt=""
@@ -67,12 +70,15 @@ export default function VideoCard({ video }: VideoCardProps) {
         />
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 to-transparent p-[5px] flex justify-end z-[2]">
-        <FavoriteButton type="videos" id={id} data={video} small />
+      <div
+        ref={badgeRef}
+        className="card-play-badge"
+      >
+        <Play size={16} />
       </div>
 
-      <div className="absolute top-4 left-4 w-6 h-6 grid place-items-center bg-secondary-container text-on-secondary-container rounded-lg z-[2]">
-        <Play size={16} />
+      <div className="card-favorite-bar absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 to-transparent p-[5px] flex justify-end z-[2]">
+        <FavoriteButton type="videos" id={id} data={video} small />
       </div>
 
       <Link

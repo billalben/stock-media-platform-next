@@ -142,7 +142,8 @@ export default function SearchBar() {
               className={`flex-1 flex justify-center items-center gap-2 h-10 px-3 text-label-large
                 ${type === "photos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
             >
-              <Image size={28} aria-hidden="true" alt="" />
+              {/* eslint-disable-next-line jsx-a11y/alt-text */}
+              <Image size={28} aria-hidden="true" />
               Photos
             </button>
             <button
