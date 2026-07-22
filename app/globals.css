@@ -179,6 +179,7 @@
 
 @layer base {
   html {
+    font-size: 93.75%;
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
   }
@@ -186,7 +187,6 @@
   body {
     background-color: var(--_bg);
     color: var(--_on-bg);
-    font-size: 1rem;
     min-height: 100vh;
     min-height: 100svh;
     display: flex;

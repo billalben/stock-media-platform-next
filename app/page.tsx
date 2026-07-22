@@ -60,10 +60,10 @@ export default async function HomePage() {
                       <PhotoCard key={photo.id} photo={photo} />
                     ))}
                   </MasonryGrid>
-                  <div className="absolute -bottom-0.5 left-0 w-full py-12 pb-6 grid place-items-center bg-gradient-to-t from-background to-transparent z-[1]">
+                  <div className="absolute -bottom-0.5 left-0 w-full pt-16 pb-6 grid place-items-center bg-gradient-to-t from-background from-30% to-transparent z-[1] pointer-events-none">
                     <Link
                       href="/photos"
-                      className="btn-primary h-10 px-6 rounded-full flex items-center gap-2 text-label-large"
+                      className="btn-primary h-10 px-6 rounded-full flex items-center gap-2 text-label-large pointer-events-auto"
                     >
                       Explore more
                     </Link>
@@ -95,10 +95,10 @@ export default async function HomePage() {
                     <VideoCard key={video.id} video={video} />
                   ))}
                 </MasonryGrid>
-                <div className="absolute -bottom-0.5 left-0 w-full py-12 pb-6 grid place-items-center bg-gradient-to-t from-background to-transparent z-[1]">
+                <div className="absolute -bottom-0.5 left-0 w-full pt-16 pb-6 grid place-items-center bg-gradient-to-t from-background from-30% to-transparent z-[1] pointer-events-none">
                   <Link
                     href="/videos"
-                    className="btn-primary h-10 px-6 rounded-full flex items-center gap-2 text-label-large"
+                    className="btn-primary h-10 px-6 rounded-full flex items-center gap-2 text-label-large pointer-events-auto"
                   >
                     Explore more
                   </Link>
