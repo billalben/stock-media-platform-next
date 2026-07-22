@@ -2,6 +2,14 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import {
+  Search,
+  X,
+  ArrowLeft,
+  Image,
+  Video,
+  History,
+} from "lucide-react";
 import { useSearchHistory } from "@/hooks/useSearchHistory";
 
 type SearchType = "photos" | "videos";
@@ -52,15 +60,13 @@ export default function SearchBar() {
         onClick={() => setOpen(true)}
         aria-label="Open search"
       >
-        <span className="material-symbols-outlined">search</span>
+        <Search size={24} />
       </button>
 
       {/* Desktop: inline search */}
       <div className="hidden md:block w-full max-w-[560px] xl:max-w-[720px] bg-surface-container-high rounded-3xl overflow-hidden focus-within:shadow-md">
         <div className="flex items-center h-12 px-4 gap-4">
-          <span className="material-symbols-outlined text-on-surface-variant text-[2rem]">
-            search
-          </span>
+          <Search size={32} className="text-on-surface-variant shrink-0" />
           <input
             type="search"
             placeholder="Search..."
@@ -75,7 +81,7 @@ export default function SearchBar() {
               onClick={() => setQuery("")}
               aria-label="Clear"
             >
-              <span className="material-symbols-outlined text-[1.8rem]">close</span>
+              <X size={28} />
             </button>
           )}
           <button
@@ -83,7 +89,7 @@ export default function SearchBar() {
             onClick={handleSubmit}
             aria-label="Search"
           >
-            <span className="material-symbols-outlined">search</span>
+            <Search size={24} />
           </button>
         </div>
       </div>
@@ -97,7 +103,7 @@ export default function SearchBar() {
               onClick={() => setOpen(false)}
               aria-label="Close search"
             >
-              <span className="material-symbols-outlined">arrow_back</span>
+              <ArrowLeft size={24} />
             </button>
             <div className="flex-1 h-full flex items-center">
               <input
@@ -117,7 +123,7 @@ export default function SearchBar() {
                 onClick={() => { setQuery(""); inputRef.current?.focus(); }}
                 aria-label="Clear"
               >
-                <span className="material-symbols-outlined">close</span>
+                <X size={24} />
               </button>
             )}
             <button
@@ -125,7 +131,7 @@ export default function SearchBar() {
               onClick={handleSubmit}
               aria-label="Search"
             >
-              <span className="material-symbols-outlined">search</span>
+              <Search size={24} />
             </button>
           </div>
 
@@ -136,7 +142,7 @@ export default function SearchBar() {
               className={`flex-1 flex justify-center items-center gap-2 h-10 px-3 text-label-large
                 ${type === "photos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
             >
-              <span className="material-symbols-outlined text-[1.8rem]">image</span>
+              <Image size={28} aria-hidden="true" alt="" />
               Photos
             </button>
             <button
@@ -144,7 +150,7 @@ export default function SearchBar() {
               className={`flex-1 flex justify-center items-center gap-2 h-10 px-3 text-label-large border-l border-outline
                 ${type === "videos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
             >
-              <span className="material-symbols-outlined text-[1.8rem]">videocam</span>
+              <Video size={28} />
               Videos
             </button>
           </div>
@@ -160,9 +166,7 @@ export default function SearchBar() {
                   className="flex items-center gap-4 w-full h-12 px-4 text-on-surface text-body-large"
                   onClick={() => handleHistoryClick(item)}
                 >
-                  <span className="material-symbols-outlined text-on-surface-variant text-[1.8rem]">
-                    history
-                  </span>
+                  <History size={28} className="text-on-surface-variant" />
                   {item}
                 </button>
               ))}

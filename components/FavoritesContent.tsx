@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Image, Video } from "lucide-react";
 import { useFavorites } from "@/hooks/useFavorites";
 import PhotoCard from "@/components/PhotoCard";
 import VideoCard from "@/components/VideoCard";
@@ -25,7 +26,7 @@ export default function FavoritesContent() {
           className={`flex-1 flex justify-center items-center gap-2 h-10 px-3 text-label-large
             ${tab === "photos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
         >
-          <span className="material-symbols-outlined text-[1.8rem]">image</span>
+          <Image size={28} aria-hidden="true" alt="" />
           Photos
         </button>
         <button
@@ -33,7 +34,7 @@ export default function FavoritesContent() {
           className={`flex-1 flex justify-center items-center gap-2 h-10 px-3 text-label-large border-l border-outline
             ${tab === "videos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
         >
-          <span className="material-symbols-outlined text-[1.8rem]">videocam</span>
+          <Video size={28} />
           Videos
         </button>
       </div>

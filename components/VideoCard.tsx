@@ -3,6 +3,7 @@
 import { useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { Play } from "lucide-react";
 import type { PexelsVideo } from "@/types/pexels";
 import FavoriteButton from "./FavoriteButton";
 
@@ -71,7 +72,7 @@ export default function VideoCard({ video }: VideoCardProps) {
       </div>
 
       <div className="absolute top-4 left-4 w-6 h-6 grid place-items-center bg-secondary-container text-on-secondary-container rounded-lg z-[2]">
-        <span className="material-symbols-outlined text-[1.8rem]">play_arrow</span>
+        <Play size={16} />
       </div>
 
       <Link

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useCallback } from "react";
+import { Heart } from "lucide-react";
 import { useFavorites } from "@/hooks/useFavorites";
 import type { PexelsPhoto, PexelsVideo } from "@/types/pexels";
 
@@ -30,9 +31,7 @@ export default function FavoriteButton({ type, id, data, small }: FavoriteButton
       onClick={handleClick}
       aria-label={active ? "Remove from favorites" : "Add to favorites"}
     >
-      <span className={`material-symbols-outlined ${small ? "text-[1.8rem]" : ""}`}>
-        favorite
-      </span>
+      <Heart size={small ? 28 : 24} fill={active ? "currentColor" : "none"} />
     </button>
   );
 }

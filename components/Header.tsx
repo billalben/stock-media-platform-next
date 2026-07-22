@@ -3,15 +3,26 @@
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  Home,
+  Image,
+  Video,
+  Grid3X3,
+  Heart,
+  ArrowLeft,
+  Menu,
+  Sun,
+  Moon,
+} from "lucide-react";
 import { useTheme } from "@/context/ThemeProvider";
 import SearchBar from "./SearchBar";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Home", icon: "home" },
-  { href: "/photos", label: "Photos", icon: "image" },
-  { href: "/videos", label: "Videos", icon: "videocam" },
-  { href: "/collections", label: "Collections", icon: "auto_awesome_mosaic" },
-  { href: "/favorites", label: "Favorite", icon: "favorite" },
+  { href: "/", label: "Home", Icon: Home },
+  { href: "/photos", label: "Photos", Icon: Image },
+  { href: "/videos", label: "Videos", Icon: Video },
+  { href: "/collections", label: "Collections", Icon: Grid3X3 },
+  { href: "/favorites", label: "Favorite", Icon: Heart },
 ];
 
 export default function Header() {
@@ -56,7 +67,7 @@ export default function Header() {
               onClick={closeNav}
               aria-label="Close menu"
             >
-              <span className="material-symbols-outlined">arrow_back</span>
+              <ArrowLeft size={24} />
             </button>
             <Link href="/" className="text-[2.6rem] font-medium text-primary tracking-[-0.5px] leading-7">
               Pixstock
@@ -80,11 +91,7 @@ export default function Header() {
                       : "text-on-surface hover:bg-on-surface/[0.08]"
                     }`}
                 >
-                  <span
-                    className={`material-symbols-outlined text-[1.8rem] ${isActive ? "font-variation-filled" : ""}`}
-                  >
-                    {item.icon}
-                  </span>
+                  <item.Icon size={29} fill={isActive ? "currentColor" : "none"} />
                   {item.label}
                 </Link>
               </li>
@@ -104,7 +111,7 @@ export default function Header() {
           onClick={() => setNavOpen(true)}
           aria-label="Open menu"
         >
-          <span className="material-symbols-outlined">menu</span>
+          <Menu size={24} />
         </button>
 
         <Link href="/" className="text-[2.6rem] font-medium text-primary mx-1 xl:hidden">
@@ -122,9 +129,7 @@ export default function Header() {
           onClick={toggleTheme}
           aria-label="Switch theme"
         >
-          <span className="material-symbols-outlined">
-            {theme === "dark" ? "light_mode" : "dark_mode"}
-          </span>
+          {theme === "dark" ? <Sun size={24} /> : <Moon size={24} />}
         </button>
       </header>
 

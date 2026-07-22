@@ -1,5 +1,7 @@
 "use client";
 
+import { Check, X, ChevronDown } from "lucide-react";
+
 interface FilterBarProps {
   orientation?: string;
   onOrientationChange: (v: string) => void;
@@ -59,9 +61,7 @@ function FilterChip({
         className="flex items-center h-full px-2"
       >
         {selected && (
-          <span className="material-symbols-outlined text-[1.8rem] text-on-secondary-container">
-            check
-          </span>
+          <Check size={28} className="text-on-secondary-container" />
         )}
         {color && !selected && (
           <span
@@ -74,9 +74,11 @@ function FilterChip({
         >
           {label}
         </span>
-        <span className="material-symbols-outlined text-[1.8rem] text-on-surface-variant">
-          {selected ? "close" : "arrow_drop_down"}
-        </span>
+        {selected ? (
+          <X size={28} className="text-on-surface-variant" />
+        ) : (
+          <ChevronDown size={28} className="text-on-surface-variant" />
+        )}
       </button>
     </div>
   );

@@ -1,5 +1,7 @@
 "use client";
 
+import { Download } from "lucide-react";
+
 interface DownloadMenuProps {
   downloads: { label: string; url: string }[];
 }
@@ -16,7 +18,7 @@ export default function DownloadMenu({ downloads }: DownloadMenuProps) {
         Download
       </span>
       <span className="w-10 h-full grid place-items-center">
-        <span className="material-symbols-outlined text-[1.8rem]">download</span>
+        <Download size={28} />
       </span>
     </a>
   );

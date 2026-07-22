@@ -201,13 +201,6 @@
 
 /* Custom component classes */
 @layer components {
-  .material-symbols-outlined {
-    display: block;
-    width: 1em;
-    height: 1em;
-    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
-  }
-
   .icon-btn {
     color: var(--_on-surface-variant);
     min-width: 48px;
@@ -224,18 +217,10 @@
     color: var(--_primary);
   }
 
-  .icon-btn.active .material-symbols-outlined {
-    font-variation-settings: "FILL" 1;
-  }
-
   .card {
     position: relative;
     border-radius: 12px;
     overflow: hidden;
-  }
-
-  .font-variation-filled {
-    font-variation-settings: "FILL" 1;
   }
 
   .btn-primary {
