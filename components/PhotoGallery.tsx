@@ -46,8 +46,9 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
 
         const res = await fetch(endpoint);
         const data = await res.json();
+        const newPhotos = data.photos || [];
 
-        setPhotos((prev) => (reset ? data.photos : [...prev, ...data.photos]));
+        setPhotos((prev) => (reset ? newPhotos : [...prev, ...newPhotos]));
         setHasMore(Boolean(data.next_page));
       } catch {
         setHasMore(false);

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import { Check, X, ChevronDown } from "lucide-react";
 
 interface FilterBarProps {
@@ -9,6 +10,7 @@ interface FilterBarProps {
   onSizeChange: (v: string) => void;
   color?: string;
   onColorChange: (v: string) => void;
+  showColor?: boolean;
 }
 
 const ORIENTATIONS = [
@@ -38,48 +40,89 @@ const COLORS = [
   { label: "White", value: "white", hex: "#FFFFFF" },
 ];
 
-function FilterChip({
+function FilterChip<T extends { label: string; value: string; hex?: string }>({
   label,
   selected,
-  onClick,
+  options,
+  onSelect,
   onClear,
-  color,
+  colorPreview,
 }: {
   label: string;
   selected: boolean;
-  onClick: () => void;
+  options: T[];
+  onSelect: (v: string) => void;
   onClear: () => void;
-  color?: string;
+  colorPreview?: string;
 }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handleClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [open]);
+
   return (
-    <div
-      className={`h-8 flex items-center border rounded-lg overflow-hidden transition-shadow
-        ${selected ? "bg-secondary-container border-none hover:shadow-md" : "border-outline"}`}
-    >
-      <button
-        onClick={selected ? onClear : onClick}
-        className="flex items-center h-full px-2"
+    <div ref={ref} className="relative">
+      <div
+        className={`h-8 flex items-center border rounded-lg overflow-hidden transition-shadow
+          ${selected ? "bg-secondary-container border-none hover:shadow-md" : "border-outline"}`}
       >
-        {selected && (
-          <Check size={28} className="text-on-secondary-container" />
-        )}
-        {color && !selected && (
-          <span
-            className="w-4 h-4 rounded-full border border-outline-variant"
-            style={{ backgroundColor: color }}
-          />
-        )}
-        <span
-          className={`text-label-medium px-2 capitalize ${selected ? "text-on-secondary-container" : "text-on-surface-variant"}`}
+        <button
+          onClick={() => (selected ? onClear() : setOpen((p) => !p))}
+          className="flex items-center h-full px-2"
         >
-          {label}
-        </span>
-        {selected ? (
-          <X size={28} className="text-on-surface-variant" />
-        ) : (
-          <ChevronDown size={28} className="text-on-surface-variant" />
-        )}
-      </button>
+          {selected && (
+            <Check size={28} className="text-on-secondary-container" />
+          )}
+          {colorPreview && !selected && (
+            <span
+              className="w-4 h-4 rounded-full border border-outline-variant"
+              style={{ backgroundColor: colorPreview }}
+            />
+          )}
+          <span
+            className={`text-label-medium px-2 capitalize ${selected ? "text-on-secondary-container" : "text-on-surface-variant"}`}
+          >
+            {label}
+          </span>
+          {selected ? (
+            <X size={28} className="text-on-surface-variant" />
+          ) : (
+            <ChevronDown size={28} className="text-on-surface-variant" />
+          )}
+        </button>
+      </div>
+
+      {open && (
+        <div className="absolute top-full left-0 mt-1 py-2 min-w-[160px] w-max bg-surface-container rounded-lg shadow-[0_1px_2px_rgba(0,0,0,0.3),0_2px_6px_2px_rgba(0,0,0,0.15)] z-50 animate-[menu-in_200ms_ease_forwards]">
+          {options.map((opt) => (
+            <button
+              key={opt.value}
+              className="flex items-center gap-3 w-full h-12 px-4 text-body-large text-on-surface hover:bg-on-surface/[0.08]"
+              onClick={() => {
+                onSelect(opt.value);
+                setOpen(false);
+              }}
+            >
+              {opt.hex && (
+                <span
+                  className="w-5 h-5 rounded-full border border-outline-variant shrink-0"
+                  style={{ backgroundColor: opt.hex }}
+                />
+              )}
+              <span className="capitalize">{opt.label}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -91,31 +134,38 @@ export default function FilterBar({
   onSizeChange,
   color,
   onColorChange,
+  showColor = true,
 }: FilterBarProps) {
   const currentOrientation = ORIENTATIONS.find((o) => o.value === orientation);
   const currentSize = SIZES.find((s) => s.value === size);
+  const currentColor = COLORS.find((c) => c.value === color);
 
   return (
     <div className="flex flex-wrap items-center gap-2 my-4">
       <FilterChip
         label={currentOrientation ? currentOrientation.label : "Orientation"}
         selected={!!orientation}
-        onClick={() => onOrientationChange("landscape")}
+        options={ORIENTATIONS}
+        onSelect={onOrientationChange}
         onClear={() => onOrientationChange("")}
       />
       <FilterChip
         label={currentSize ? currentSize.label : "Size"}
         selected={!!size}
-        onClick={() => onSizeChange("medium")}
+        options={SIZES}
+        onSelect={onSizeChange}
         onClear={() => onSizeChange("")}
       />
-      <FilterChip
-        label={color ? color.charAt(0).toUpperCase() + color.slice(1) : "Color"}
-        selected={!!color}
-        onClick={() => onColorChange("red")}
-        onClear={() => onColorChange("")}
-        color={color ? COLORS.find((c) => c.value === color)?.hex : undefined}
-      />
+      {showColor && (
+        <FilterChip
+          label={currentColor ? currentColor.label : "Color"}
+          selected={!!color}
+          options={COLORS}
+          onSelect={onColorChange}
+          onClear={() => onColorChange("")}
+          colorPreview={currentColor?.hex}
+        />
+      )}
     </div>
   );
 }

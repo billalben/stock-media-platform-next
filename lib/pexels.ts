@@ -44,9 +44,17 @@ export async function getPhotoDetail(id: number) {
 export async function searchVideos(
   query: string,
   page: number = 1,
-  perPage: number = 30
+  perPage: number = 30,
+  orientation?: string,
+  size?: string
 ) {
-  const url = `${PEXELS_VIDEOS_API_BASE}/search?query=${encodeURIComponent(query)}&per_page=${perPage}&page=${page}`;
+  const params = new URLSearchParams();
+  params.set("query", query);
+  params.set("page", String(page));
+  params.set("per_page", String(perPage));
+  if (orientation) params.set("orientation", orientation);
+  if (size) params.set("size", size);
+  const url = `${PEXELS_VIDEOS_API_BASE}/search?${params}`;
   return pexelsFetch<import("@/types/pexels").PexelsVideosResponse>(url);
 }
 
