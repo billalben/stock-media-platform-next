@@ -1,18 +1,14 @@
 import { NextRequest } from "next/server";
 import { getPopularVideos } from "@/lib/pexels";
+import { errorResponse, parsePagination } from "@/lib/api-utils";
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = request.nextUrl;
-  const page = Number(searchParams.get("page")) || 1;
-  const perPage = Number(searchParams.get("per_page")) || 30;
+  const { page, perPage } = parsePagination(request.nextUrl.searchParams);
 
   try {
     const data = await getPopularVideos(page, perPage);
     return Response.json(data);
   } catch (error) {
-    return Response.json(
-      { error: error instanceof Error ? error.message : "Internal server error" },
-      { status: 500 }
-    );
+    return errorResponse(error);
   }
 }
