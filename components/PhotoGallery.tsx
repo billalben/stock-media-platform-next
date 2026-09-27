@@ -5,6 +5,8 @@ import PhotoCard from "@/components/PhotoCard";
 import MasonryGrid from "@/components/MasonryGrid";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import FilterBar from "@/components/FilterBar";
+import GallerySkeleton from "@/components/GallerySkeleton";
+import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import type { PexelsPhoto } from "@/types/pexels";
 
 interface PhotoGalleryProps {
@@ -21,6 +23,13 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
   const initialQueryRef = useRef(initialQuery);
+  const abortRef = useRef<AbortController | null>(null);
+  const isFirstRender = useRef(true);
+
+  const filterKey = useDebouncedValue(
+    `${orientation}|${size}|${color}`,
+    300,
+  );
 
   const fetchPhotos = useCallback(
     async (
@@ -31,6 +40,10 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
       clr: string,
       reset = false,
     ) => {
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+
       setLoading(true);
       try {
         const params = new URLSearchParams();
@@ -45,25 +58,43 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
           ? `/api/photos/search?${params}`
           : `/api/photos/curated?${params}`;
 
-        const res = await fetch(endpoint);
+        const res = await fetch(endpoint, { signal: controller.signal });
         const data = await res.json();
         const newPhotos = data.photos || [];
 
         setPhotos((prev) => (reset ? newPhotos : [...prev, ...newPhotos]));
         setHasMore(Boolean(data.next_page));
-      } catch {
+      } catch (error) {
+        if ((error as { name?: string } | null)?.name === "AbortError") return;
         setHasMore(false);
       } finally {
-        setLoading(false);
-        setInitialLoading(false);
+        if (abortRef.current === controller) {
+          setLoading(false);
+          setInitialLoading(false);
+        }
       }
     },
     [],
   );
 
   useEffect(() => {
-    fetchPhotos(1, initialQueryRef.current, "", "", "", true);
-  }, [fetchPhotos]);
+    const [ori, sz, clr] = filterKey.split("|");
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      fetchPhotos(1, initialQueryRef.current, ori, sz, clr, true);
+      return;
+    }
+
+    setPage(1);
+    setPhotos([]);
+    setHasMore(true);
+    fetchPhotos(1, initialQueryRef.current, ori, sz, clr, true);
+  }, [filterKey, fetchPhotos]);
+
+  useEffect(() => {
+    return () => abortRef.current?.abort();
+  }, []);
 
   const loadMore = useCallback(() => {
     if (loading || !hasMore) return;
@@ -85,39 +116,15 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
     <>
       <FilterBar
         orientation={orientation}
-        onOrientationChange={(v) => {
-          setOrientation(v);
-          setPage(1);
-          setPhotos([]);
-          setHasMore(true);
-          fetchPhotos(1, initialQuery, v, size, color, true);
-        }}
+        onOrientationChange={setOrientation}
         size={size}
-        onSizeChange={(v) => {
-          setSize(v);
-          setPage(1);
-          setPhotos([]);
-          setHasMore(true);
-          fetchPhotos(1, initialQuery, orientation, v, color, true);
-        }}
+        onSizeChange={setSize}
         color={color}
-        onColorChange={(v) => {
-          setColor(v);
-          setPage(1);
-          setPhotos([]);
-          setHasMore(true);
-          fetchPhotos(1, initialQuery, orientation, size, v, true);
-        }}
+        onColorChange={setColor}
       />
 
-      {initialLoading ? (
-        <MasonryGrid>
-          {Array.from({ length: 18 }).map((_, i) => (
-            <div key={i} className="break-inside-avoid mb-2 md:mb-3">
-              <div className="bg-surface-container-highest rounded-xl animate-skeleton aspect-2/3" />
-            </div>
-          ))}
-        </MasonryGrid>
+      {initialLoading || (loading && photos.length === 0) ? (
+        <GallerySkeleton />
       ) : photos.length > 0 ? (
         <MasonryGrid>
           {photos.map((photo) => (

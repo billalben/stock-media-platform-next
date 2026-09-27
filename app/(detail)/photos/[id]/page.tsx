@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getPhotoDetail, searchPhotos } from "@/lib/pexels";
+import {
+  getCuratedPhotos,
+  getPhotoDetail,
+  searchPhotos,
+} from "@/lib/pexels";
 import PhotoCard from "@/components/PhotoCard";
 import MasonryGrid from "@/components/MasonryGrid";
 import DetailHeader from "@/components/DetailHeader";
@@ -9,6 +13,15 @@ import type { PexelsPhoto, PexelsPhotosResponse } from "@/types/pexels";
 
 interface Props {
   params: Promise<{ id: string }>;
+}
+
+export async function generateStaticParams() {
+  try {
+    const { photos } = await getCuratedPhotos(1, 12);
+    return photos.map((photo) => ({ id: String(photo.id) }));
+  } catch {
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

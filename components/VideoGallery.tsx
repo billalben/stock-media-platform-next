@@ -5,6 +5,8 @@ import VideoCard from "@/components/VideoCard";
 import MasonryGrid from "@/components/MasonryGrid";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import FilterBar from "@/components/FilterBar";
+import GallerySkeleton from "@/components/GallerySkeleton";
+import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import type { PexelsVideo } from "@/types/pexels";
 
 interface VideoGalleryProps {
@@ -20,6 +22,10 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
   const [orientation, setOrientation] = useState("");
   const [size, setSize] = useState("");
   const initialQueryRef = useRef(initialQuery);
+  const abortRef = useRef<AbortController | null>(null);
+  const isFirstRender = useRef(true);
+
+  const filterKey = useDebouncedValue(`${orientation}|${size}`, 300);
 
   const fetchVideos = useCallback(
     async (
@@ -29,6 +35,10 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
       sz: string,
       reset = false,
     ) => {
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+
       setLoading(true);
       try {
         const params = new URLSearchParams();
@@ -42,25 +52,43 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
           ? `/api/videos/search?${params}`
           : `/api/videos/popular?${params}`;
 
-        const res = await fetch(endpoint);
+        const res = await fetch(endpoint, { signal: controller.signal });
         const data = await res.json();
         const newVideos = data.videos || [];
 
         setVideos((prev) => (reset ? newVideos : [...prev, ...newVideos]));
         setHasMore(Boolean(data.next_page));
-      } catch {
+      } catch (error) {
+        if ((error as { name?: string } | null)?.name === "AbortError") return;
         setHasMore(false);
       } finally {
-        setLoading(false);
-        setInitialLoading(false);
+        if (abortRef.current === controller) {
+          setLoading(false);
+          setInitialLoading(false);
+        }
       }
     },
     [],
   );
 
   useEffect(() => {
-    fetchVideos(1, initialQueryRef.current, "", "", true);
-  }, [fetchVideos]);
+    const [ori, sz] = filterKey.split("|");
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      fetchVideos(1, initialQueryRef.current, ori, sz, true);
+      return;
+    }
+
+    setPage(1);
+    setVideos([]);
+    setHasMore(true);
+    fetchVideos(1, initialQueryRef.current, ori, sz, true);
+  }, [filterKey, fetchVideos]);
+
+  useEffect(() => {
+    return () => abortRef.current?.abort();
+  }, []);
 
   const loadMore = useCallback(() => {
     if (loading || !hasMore) return;
@@ -73,34 +101,16 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
     <>
       <FilterBar
         orientation={orientation}
-        onOrientationChange={(v) => {
-          setOrientation(v);
-          setPage(1);
-          setVideos([]);
-          setHasMore(true);
-          fetchVideos(1, initialQuery, v, size, true);
-        }}
+        onOrientationChange={setOrientation}
         size={size}
-        onSizeChange={(v) => {
-          setSize(v);
-          setPage(1);
-          setVideos([]);
-          setHasMore(true);
-          fetchVideos(1, initialQuery, orientation, v, true);
-        }}
+        onSizeChange={setSize}
         color=""
         onColorChange={() => {}}
         showColor={false}
       />
 
-      {initialLoading ? (
-        <MasonryGrid>
-          {Array.from({ length: 18 }).map((_, i) => (
-            <div key={i} className="break-inside-avoid mb-2 md:mb-3">
-              <div className="bg-surface-container-highest rounded-xl animate-skeleton aspect-2/3" />
-            </div>
-          ))}
-        </MasonryGrid>
+      {initialLoading || (loading && videos.length === 0) ? (
+        <GallerySkeleton />
       ) : videos.length > 0 ? (
         <MasonryGrid>
           {videos.map((video) => (

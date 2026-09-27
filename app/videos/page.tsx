@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import VideoGallery from "@/components/VideoGallery";
+import GallerySkeleton from "@/components/GallerySkeleton";
 
 export const metadata: Metadata = {
   title: "Videos - Pixstock",
@@ -21,17 +22,7 @@ export default async function VideosPage({ searchParams }: VideosPageProps) {
           Videos
         </h1>
 
-        <Suspense
-          fallback={
-            <div className="columns-2 md:columns-3 gap-2 md:gap-3">
-              {Array.from({ length: 18 }).map((_, i) => (
-                <div key={i} className="break-inside-avoid mb-2 md:mb-3">
-                  <div className="bg-surface-container-highest rounded-xl animate-skeleton aspect-[2/3]" />
-                </div>
-              ))}
-            </div>
-          }
-        >
+        <Suspense fallback={<GallerySkeleton />}>
           <VideoGallery key={query} initialQuery={query} />
         </Suspense>
       </div>

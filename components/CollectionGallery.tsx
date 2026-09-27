@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import CollectionCard from "@/components/CollectionCard";
 import InfiniteScroll from "@/components/InfiniteScroll";
+import CollectionListSkeleton from "@/components/CollectionListSkeleton";
 import type { PexelsCollection } from "@/types/pexels";
 
 export default function CollectionGallery() {
@@ -11,13 +12,19 @@ export default function CollectionGallery() {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const abortRef = useRef<AbortController | null>(null);
 
   const fetchCollections = useCallback(
     async (pageNum: number, reset = false) => {
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+
       setLoading(true);
       try {
         const res = await fetch(
           `/api/collections/featured?page=${pageNum}&per_page=30`,
+          { signal: controller.signal },
         );
         const data = await res.json();
 
@@ -25,11 +32,14 @@ export default function CollectionGallery() {
           reset ? data.collections : [...prev, ...data.collections],
         );
         setHasMore(Boolean(data.next_page));
-      } catch {
+      } catch (error) {
+        if ((error as { name?: string } | null)?.name === "AbortError") return;
         setHasMore(false);
       } finally {
-        setLoading(false);
-        setInitialLoading(false);
+        if (abortRef.current === controller) {
+          setLoading(false);
+          setInitialLoading(false);
+        }
       }
     },
     [],
@@ -39,6 +49,10 @@ export default function CollectionGallery() {
     fetchCollections(1, true);
   }, [fetchCollections]);
 
+  useEffect(() => {
+    return () => abortRef.current?.abort();
+  }, []);
+
   const loadMore = useCallback(() => {
     if (loading || !hasMore) return;
     const nextPage = page + 1;
@@ -47,21 +61,7 @@ export default function CollectionGallery() {
   }, [page, loading, hasMore, fetchCollections]);
 
   if (initialLoading) {
-    return (
-      <div className="md:grid md:grid-cols-2 xl:grid-cols-3 xl:gap-x-6">
-        {Array.from({ length: 12 }).map((_, i) => (
-          <div
-            key={i}
-            className="flex items-center justify-between h-18 px-4 border-b border-outline-variant"
-          >
-            <div className="space-y-1">
-              <div className="w-48 h-4 bg-surface-container-highest rounded animate-skeleton" />
-              <div className="w-24 h-3 bg-surface-container-highest rounded animate-skeleton" />
-            </div>
-          </div>
-        ))}
-      </div>
-    );
+    return <CollectionListSkeleton />;
   }
 
   return (

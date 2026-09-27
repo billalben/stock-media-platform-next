@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getVideoDetail } from "@/lib/pexels";
+import { getPopularVideos, getVideoDetail } from "@/lib/pexels";
 import DetailHeader from "@/components/DetailHeader";
 import type { PexelsVideo } from "@/types/pexels";
 
 interface Props {
   params: Promise<{ id: string }>;
+}
+
+export async function generateStaticParams() {
+  try {
+    const { videos } = await getPopularVideos(1, 16);
+    return videos.map((video) => ({ id: String(video.id) }));
+  } catch {
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
