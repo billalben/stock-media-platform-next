@@ -12,7 +12,7 @@ export default function PhotoCard({ photo }: PhotoCardProps) {
 
   return (
     <div
-      className="card break-inside-avoid mb-2 md:mb-3"
+      className="card mb-2 break-inside-avoid md:mb-3"
       style={{ backgroundColor: avg_color }}
     >
       <figure
@@ -24,12 +24,12 @@ export default function PhotoCard({ photo }: PhotoCardProps) {
           alt={alt}
           width={width}
           height={height}
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
           loading="lazy"
         />
       </figure>
 
-      <div className="card-favorite-bar absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/75 to-transparent p-1.25 flex justify-end z-2">
+      <div className="card-favorite-bar absolute right-0 bottom-0 left-0 z-2 flex justify-end bg-linear-to-t from-black/75 to-transparent p-1.25">
         <FavoriteButton type="photos" id={id} data={photo} small />
       </div>
 

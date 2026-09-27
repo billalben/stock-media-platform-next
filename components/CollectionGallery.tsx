@@ -73,7 +73,7 @@ export default function CollectionGallery() {
           ))}
         </div>
       ) : (
-        <div className="text-on-surface-variant text-center py-12 text-body-large">
+        <div className="py-12 text-center text-body-large text-on-surface-variant">
           No collections found
         </div>
       )}

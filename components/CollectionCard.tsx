@@ -9,9 +9,9 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
   const { id, title, media_count } = collection;
 
   return (
-    <div className="relative flex items-center justify-between h-18 px-4 border-b border-outline-variant group">
+    <div className="group relative flex h-18 items-center justify-between border-b border-outline-variant px-4">
       <div>
-        <h3 className="text-body-large text-on-surface truncate max-w-60">
+        <h3 className="max-w-60 truncate text-body-large text-on-surface">
           {title}
         </h3>
         <p className="text-body-medium text-on-surface-variant">

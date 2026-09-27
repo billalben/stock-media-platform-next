@@ -13,7 +13,11 @@ import MasonryGrid from "@/components/MasonryGrid";
 import GallerySkeleton from "@/components/GallerySkeleton";
 import CollectionListSkeleton from "@/components/CollectionListSkeleton";
 import BannerSection from "@/components/BannerSection";
-import type { PexelsCollection, PexelsPhoto, PexelsVideo } from "@/types/pexels";
+import type {
+  PexelsCollection,
+  PexelsPhoto,
+  PexelsVideo,
+} from "@/types/pexels";
 
 export const metadata: Metadata = {
   title: "Pixstock - A large stock library",
@@ -23,7 +27,7 @@ export const metadata: Metadata = {
 
 function SectionError({ message }: { message: string }) {
   return (
-    <div className="text-on-surface-variant py-8 text-center">{message}</div>
+    <div className="py-8 text-center text-on-surface-variant">{message}</div>
   );
 }
 
@@ -47,10 +51,10 @@ async function FeaturedPhotos() {
           <PhotoCard key={photo.id} photo={photo} />
         ))}
       </MasonryGrid>
-      <div className="absolute -bottom-0.5 left-0 w-full pt-16 pb-6 grid place-items-center bg-linear-to-t from-background from-30% to-transparent z-1 pointer-events-none">
+      <div className="pointer-events-none absolute -bottom-0.5 left-0 z-1 grid w-full place-items-center bg-linear-to-t from-background from-30% to-transparent pt-16 pb-6">
         <Link
           href="/photos"
-          className="btn-primary h-10 px-6 rounded-full flex items-center gap-2 text-label-large pointer-events-auto"
+          className="btn-primary pointer-events-auto flex h-10 items-center gap-2 rounded-full px-6 text-label-large"
         >
           Explore more
         </Link>
@@ -79,10 +83,10 @@ async function PopularVideos() {
           <VideoCard key={video.id} video={video} />
         ))}
       </MasonryGrid>
-      <div className="absolute -bottom-0.5 left-0 w-full pt-16 pb-6 grid place-items-center bg-linear-to-t from-background from-30% to-transparent z-1 pointer-events-none">
+      <div className="pointer-events-none absolute -bottom-0.5 left-0 z-1 grid w-full place-items-center bg-linear-to-t from-background from-30% to-transparent pt-16 pb-6">
         <Link
           href="/videos"
-          className="btn-primary h-10 px-6 rounded-full flex items-center gap-2 text-label-large pointer-events-auto"
+          className="btn-primary pointer-events-auto flex h-10 items-center gap-2 rounded-full px-6 text-label-large"
         >
           Explore more
         </Link>
@@ -111,10 +115,10 @@ async function FeaturedCollections() {
           <CollectionCard key={collection.id} collection={collection} />
         ))}
       </div>
-      <div className="flex justify-center mt-3 md:mt-6">
+      <div className="mt-3 flex justify-center md:mt-6">
         <Link
           href="/collections"
-          className="btn-primary h-10 px-6 rounded-full flex items-center gap-2 text-label-large"
+          className="btn-primary flex h-10 items-center gap-2 rounded-full px-6 text-label-large"
         >
           More Collections
         </Link>
@@ -137,7 +141,7 @@ export default function HomePage() {
           <div className="container">
             <h2
               id="featured-label"
-              className="text-title-large md:text-headline-small xl:text-headline-medium mb-3 md:mb-5 xl:mb-6"
+              className="mb-3 text-title-large md:mb-5 md:text-headline-small xl:mb-6 xl:text-headline-medium"
             >
               Featured photos
             </h2>
@@ -156,7 +160,7 @@ export default function HomePage() {
           <div className="container">
             <h2
               id="popular-video-label"
-              className="text-title-large md:text-headline-small xl:text-headline-medium mb-3 md:mb-5 xl:mb-6"
+              className="mb-3 text-title-large md:mb-5 md:text-headline-small xl:mb-6 xl:text-headline-medium"
             >
               Popular videos
             </h2>
@@ -175,7 +179,7 @@ export default function HomePage() {
           <div className="container">
             <h2
               id="collection-label"
-              className="text-title-large md:text-headline-small xl:text-headline-medium mb-3 md:mb-5 xl:mb-6"
+              className="mb-3 text-title-large md:mb-5 md:text-headline-small xl:mb-6 xl:text-headline-medium"
             >
               Featured collections
             </h2>

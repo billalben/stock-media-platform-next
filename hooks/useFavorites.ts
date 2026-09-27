@@ -28,7 +28,6 @@ function saveFavorites(store: FavoritesStore) {
 export function useFavorites() {
   const [favorites, setFavorites] = useState<FavoritesStore>(DEFAULT_STORE);
 
-   
   useEffect(() => {
     setFavorites(loadFavorites());
   }, []);
@@ -37,11 +36,15 @@ export function useFavorites() {
     (type: "photos" | "videos", id: number) => {
       return Boolean(favorites[type][id]);
     },
-    [favorites]
+    [favorites],
   );
 
   const toggleFavorite = useCallback(
-    (type: "photos" | "videos", id: number, data?: PexelsPhoto | PexelsVideo) => {
+    (
+      type: "photos" | "videos",
+      id: number,
+      data?: PexelsPhoto | PexelsVideo,
+    ) => {
       setFavorites((prev) => {
         const next = {
           photos: { ...prev.photos },
@@ -58,12 +61,12 @@ export function useFavorites() {
         return next;
       });
     },
-    []
+    [],
   );
 
   const getFavoritesByType = useCallback(
     (type: "photos" | "videos") => Object.values(favorites[type]),
-    [favorites]
+    [favorites],
   );
 
   return { favorites, isFavorite, toggleFavorite, getFavoritesByType };

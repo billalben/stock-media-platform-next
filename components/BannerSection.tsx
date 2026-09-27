@@ -15,7 +15,15 @@ function BannerGridItem({
   if (type === "video") {
     return (
       <div className="banner-grid-item" style={{ gridArea: area }}>
-        <video autoPlay muted loop playsInline {...({ loading: "lazy" } as React.VideoHTMLAttributes<HTMLVideoElement>)}>
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          {...({
+            loading: "lazy",
+          } as React.VideoHTMLAttributes<HTMLVideoElement>)}
+        >
           <source src={src} type="video/mp4" />
         </video>
       </div>
@@ -140,7 +148,7 @@ function BannerCard({
         <p className="banner-text">{description}</p>
         <Link
           href={href}
-          className={`${btnClass} h-10 px-6 rounded-full flex items-center gap-2 max-w-max`}
+          className={`${btnClass} flex h-10 max-w-max items-center gap-2 rounded-full px-6`}
         >
           <span className="text-label-large font-normal">Explore Now</span>
         </Link>

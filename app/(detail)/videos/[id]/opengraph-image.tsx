@@ -24,35 +24,33 @@ export default async function Image({
   }
 
   return new ImageResponse(
-    (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        padding: 80,
+        background: "linear-gradient(135deg, #006a67 0%, #003735 100%)",
+        color: "#ffffff",
+        fontFamily: "sans-serif",
+      }}
+    >
+      <div style={{ fontSize: 40, opacity: 0.85 }}>Pixstock</div>
       <div
         style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          padding: 80,
-          background: "linear-gradient(135deg, #006a67 0%, #003735 100%)",
-          color: "#ffffff",
-          fontFamily: "sans-serif",
+          fontSize: 68,
+          fontWeight: 700,
+          lineHeight: 1.1,
+          maxHeight: 340,
+          overflow: "hidden",
         }}
       >
-        <div style={{ fontSize: 40, opacity: 0.85 }}>Pixstock</div>
-        <div
-          style={{
-            fontSize: 68,
-            fontWeight: 700,
-            lineHeight: 1.1,
-            maxHeight: 340,
-            overflow: "hidden",
-          }}
-        >
-          {title}
-        </div>
-        <div style={{ fontSize: 32, opacity: 0.85 }}>{subtitle}</div>
+        {title}
       </div>
-    ),
-    { ...size }
+      <div style={{ fontSize: 32, opacity: 0.85 }}>{subtitle}</div>
+    </div>,
+    { ...size },
   );
 }

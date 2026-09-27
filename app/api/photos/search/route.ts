@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   if (!query) {
     return Response.json(
       { error: "Query parameter is required" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
       perPage,
       orientation,
       size,
-      color
+      color,
     );
     return Response.json(data);
   } catch (error) {

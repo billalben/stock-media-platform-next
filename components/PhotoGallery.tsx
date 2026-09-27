@@ -26,10 +26,7 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
   const abortRef = useRef<AbortController | null>(null);
   const isFirstRender = useRef(true);
 
-  const filterKey = useDebouncedValue(
-    `${orientation}|${size}|${color}`,
-    300,
-  );
+  const filterKey = useDebouncedValue(`${orientation}|${size}|${color}`, 300);
 
   const fetchPhotos = useCallback(
     async (
@@ -132,7 +129,7 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
           ))}
         </MasonryGrid>
       ) : (
-        <div className="text-on-surface-variant text-center py-12 text-body-large">
+        <div className="py-12 text-center text-body-large text-on-surface-variant">
           No photos found
         </div>
       )}

@@ -89,8 +89,7 @@ export interface PexelsCollectionsResponse {
 }
 
 export type CollectionMediaItem =
-  | (PexelsPhoto & { type: "Photo" })
-  | (PexelsVideo & { type: "Video" });
+  (PexelsPhoto & { type: "Photo" }) | (PexelsVideo & { type: "Video" });
 
 export interface PexelsCollectionDetailResponse {
   id: string;

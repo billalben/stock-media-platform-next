@@ -20,11 +20,10 @@ export default function FavoritesContent() {
   return (
     <>
       {/* Segment toggle */}
-      <div className="flex border border-outline rounded-full overflow-hidden my-4 w-full">
+      <div className="my-4 flex w-full overflow-hidden rounded-full border border-outline">
         <button
           onClick={() => setTab("photos")}
-          className={`flex-1 flex justify-center items-center gap-2 h-10 px-3 text-label-large
-            ${tab === "photos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
+          className={`flex h-10 flex-1 items-center justify-center gap-2 px-3 text-label-large ${tab === "photos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
         >
           {/* eslint-disable-next-line jsx-a11y/alt-text */}
           <Image size={28} aria-hidden="true" />
@@ -32,8 +31,7 @@ export default function FavoritesContent() {
         </button>
         <button
           onClick={() => setTab("videos")}
-          className={`flex-1 flex justify-center items-center gap-2 h-10 px-3 text-label-large border-l border-outline
-            ${tab === "videos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
+          className={`flex h-10 flex-1 items-center justify-center gap-2 border-l border-outline px-3 text-label-large ${tab === "videos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
         >
           <Video size={28} />
           Videos
@@ -49,7 +47,7 @@ export default function FavoritesContent() {
               ))}
             </MasonryGrid>
           ) : (
-            <div className="text-on-surface-variant text-center py-12 text-body-large">
+            <div className="py-12 text-center text-body-large text-on-surface-variant">
               No favorite photos yet
             </div>
           )}
@@ -65,7 +63,7 @@ export default function FavoritesContent() {
               ))}
             </MasonryGrid>
           ) : (
-            <div className="text-on-surface-variant text-center py-12 text-body-large">
+            <div className="py-12 text-center text-body-large text-on-surface-variant">
               No favorite videos yet
             </div>
           )}

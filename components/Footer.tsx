@@ -4,15 +4,15 @@ export default function Footer() {
   return (
     <footer className="mt-6 pb-3">
       <div className="container">
-        <div className="bg-surface-container text-on-surface-variant p-4 rounded-2xl md:grid md:grid-cols-2 md:items-end md:gap-6">
+        <div className="rounded-2xl bg-surface-container p-4 text-on-surface-variant md:grid md:grid-cols-2 md:items-end md:gap-6">
           <div>
             <Link
               href="/"
-              className="text-[2.6rem] font-medium text-primary inline-block"
+              className="inline-block text-[2.6rem] font-medium text-primary"
             >
               Pixstock
             </Link>
-            <p className="text-body-small leading-4.5 my-2 md:mb-1">
+            <p className="my-2 text-body-small leading-4.5 md:mb-1">
               Pixstock is a stock photo app developed by{" "}
               <span className="text-primary">Billal Benz</span> and all Photos
               and Videos provided by{" "}
@@ -20,7 +20,7 @@ export default function Footer() {
                 href="https://pexels.com/"
                 target="_blank"
                 rel="noopener"
-                className="text-primary inline hover:underline"
+                className="inline text-primary hover:underline"
               >
                 Pexels
               </a>
@@ -28,7 +28,7 @@ export default function Footer() {
             </p>
           </div>
           <div>
-            <p className="text-label-medium mb-1">Follow us on</p>
+            <p className="mb-1 text-label-medium">Follow us on</p>
             <ul className="flex gap-2">
               <li>
                 <a

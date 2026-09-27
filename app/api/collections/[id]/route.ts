@@ -4,7 +4,7 @@ import { errorResponse, parsePagination } from "@/lib/api-utils";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const { page, perPage } = parsePagination(request.nextUrl.searchParams);
@@ -12,7 +12,7 @@ export async function GET(
   if (!id) {
     return Response.json(
       { error: "Collection ID is required" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

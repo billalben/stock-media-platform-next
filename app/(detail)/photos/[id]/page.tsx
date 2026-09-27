@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import {
-  getCuratedPhotos,
-  getPhotoDetail,
-  searchPhotos,
-} from "@/lib/pexels";
+import { getCuratedPhotos, getPhotoDetail, searchPhotos } from "@/lib/pexels";
 import PhotoCard from "@/components/PhotoCard";
 import MasonryGrid from "@/components/MasonryGrid";
 import DetailHeader from "@/components/DetailHeader";
@@ -75,26 +71,26 @@ export default async function PhotoDetailPage({ params }: Props) {
       />
 
       <main className="flex-1 pt-16">
-        <div className="container xl:max-w-360 xl:grid xl:grid-cols-[1fr_minmax(0,1fr)] xl:items-start xl:gap-6">
+        <div className="container xl:grid xl:max-w-360 xl:grid-cols-[1fr_minmax(0,1fr)] xl:items-start xl:gap-6">
           {/* Photo Preview */}
-          <div className="detail-wrapper h-147 xl:h-197 grid grid-rows-[1fr_max-content] place-items-center xl:sticky xl:top-19">
-            <div className="max-w-full max-h-full mx-auto rounded-2xl overflow-hidden mb-2 xl:max-h-190">
+          <div className="detail-wrapper grid h-147 grid-rows-[1fr_max-content] place-items-center xl:sticky xl:top-19 xl:h-197">
+            <div className="mx-auto mb-2 max-h-full max-w-full overflow-hidden rounded-2xl xl:max-h-190">
               <Image
                 src={photo.src.large2x}
                 alt={photo.alt}
                 width={photo.width}
                 height={photo.height}
-                className="max-w-full max-h-full w-auto h-auto object-contain"
+                className="h-auto max-h-full w-auto max-w-full object-contain"
                 priority
               />
             </div>
-            <p className="text-title-small text-center">
+            <p className="text-center text-title-small">
               Photograph by{" "}
               <a
                 href={photo.photographer_url}
                 target="_blank"
                 rel="noopener"
-                className="text-primary inline hover:underline"
+                className="inline text-primary hover:underline"
               >
                 {photo.photographer}
               </a>
@@ -103,13 +99,13 @@ export default async function PhotoDetailPage({ params }: Props) {
 
           {/* Detail Info & Similar */}
           <div>
-            <h1 className="text-title-large md:text-headline-medium xl:mt-10 mt-8 mb-4">
+            <h1 className="mt-8 mb-4 text-title-large md:text-headline-medium xl:mt-10">
               {photo.alt || "Photo Detail"}
             </h1>
 
             {similar && similar.photos.length > 0 && (
               <section>
-                <h2 className="text-title-large mb-3 md:mb-5">
+                <h2 className="mb-3 text-title-large md:mb-5">
                   More like this
                 </h2>
                 <MasonryGrid>

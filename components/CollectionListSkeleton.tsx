@@ -10,11 +10,11 @@ export default function CollectionListSkeleton({
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className="flex items-center justify-between h-18 px-4 border-b border-outline-variant"
+          className="flex h-18 items-center justify-between border-b border-outline-variant px-4"
         >
           <div className="space-y-1">
-            <div className="w-48 h-4 bg-surface-container-highest rounded animate-skeleton" />
-            <div className="w-24 h-3 bg-surface-container-highest rounded animate-skeleton" />
+            <div className="h-4 w-48 animate-skeleton rounded bg-surface-container-highest" />
+            <div className="h-3 w-24 animate-skeleton rounded bg-surface-container-highest" />
           </div>
         </div>
       ))}

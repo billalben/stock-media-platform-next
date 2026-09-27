@@ -24,7 +24,6 @@ function saveHistory(items: string[]) {
 export function useSearchHistory() {
   const [history, setHistory] = useState<string[]>([]);
 
-   
   useEffect(() => {
     setHistory(loadHistory());
   }, []);

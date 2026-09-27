@@ -11,7 +11,7 @@ export default function FavoritesPage() {
   return (
     <main className="flex-1 pt-3">
       <div className="container">
-        <h1 className="text-title-large md:text-headline-small xl:text-headline-medium mb-4 capitalize">
+        <h1 className="mb-4 text-title-large capitalize md:text-headline-small xl:text-headline-medium">
           Favorite
         </h1>
 

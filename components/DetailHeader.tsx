@@ -25,7 +25,7 @@ export default function DetailHeader({
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-20 flex items-center h-16 px-1 gap-1 bg-surface">
+    <header className="fixed top-0 right-0 left-0 z-20 flex h-16 items-center gap-1 bg-surface px-1">
       <button
         className="icon-btn"
         onClick={() => router.back()}
@@ -36,12 +36,12 @@ export default function DetailHeader({
 
       <Link
         href="/"
-        className="text-[2.6rem] font-medium text-primary tracking-[-0.5px] leading-7"
+        className="text-[2.6rem] leading-7 font-medium tracking-[-0.5px] text-primary"
       >
         Pixstock
       </Link>
 
-      <div className="flex-1 flex justify-end items-center gap-1">
+      <div className="flex flex-1 items-center justify-end gap-1">
         <DownloadMenu downloads={downloads} />
         <FavoriteButton
           type={favoriteType}

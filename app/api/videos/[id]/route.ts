@@ -4,7 +4,7 @@ import { errorResponse } from "@/lib/api-utils";
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const videoId = Number(id);

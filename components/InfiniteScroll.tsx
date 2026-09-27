@@ -8,7 +8,11 @@ interface InfiniteScrollProps {
   onLoadMore: () => void;
 }
 
-export default function InfiniteScroll({ hasMore, loading, onLoadMore }: InfiniteScrollProps) {
+export default function InfiniteScroll({
+  hasMore,
+  loading,
+  onLoadMore,
+}: InfiniteScrollProps) {
   const { sentinelRef } = useInfiniteScroll({ hasMore, loading, onLoadMore });
 
   if (!hasMore && !loading) return null;
@@ -16,7 +20,7 @@ export default function InfiniteScroll({ hasMore, loading, onLoadMore }: Infinit
   return (
     <div ref={sentinelRef} className="flex justify-center py-5">
       {loading && (
-        <div className="w-10 h-10 border-4 border-primary border-r-transparent rounded-full animate-spin-loader" />
+        <div className="h-10 w-10 animate-spin-loader rounded-full border-4 border-primary border-r-transparent" />
       )}
     </div>
   );

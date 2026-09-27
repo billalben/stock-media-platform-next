@@ -72,24 +72,23 @@ function FilterChip<T extends { label: string; value: string; hex?: string }>({
   return (
     <div ref={ref} className="relative">
       <div
-        className={`h-8 flex items-center border rounded-lg overflow-hidden transition-shadow
-          ${selected ? "bg-secondary-container border-none hover:shadow-md" : "border-outline"}`}
+        className={`flex h-8 items-center overflow-hidden rounded-lg border transition-shadow ${selected ? "border-none bg-secondary-container hover:shadow-md" : "border-outline"}`}
       >
         <button
           onClick={() => (selected ? onClear() : setOpen((p) => !p))}
-          className="flex items-center h-full px-2"
+          className="flex h-full items-center px-2"
         >
           {selected && (
             <Check size={28} className="text-on-secondary-container" />
           )}
           {colorPreview && !selected && (
             <span
-              className="w-4 h-4 rounded-full border border-outline-variant"
+              className="h-4 w-4 rounded-full border border-outline-variant"
               style={{ backgroundColor: colorPreview }}
             />
           )}
           <span
-            className={`text-label-medium px-2 capitalize ${selected ? "text-on-secondary-container" : "text-on-surface-variant"}`}
+            className={`px-2 text-label-medium capitalize ${selected ? "text-on-secondary-container" : "text-on-surface-variant"}`}
           >
             {label}
           </span>
@@ -102,11 +101,11 @@ function FilterChip<T extends { label: string; value: string; hex?: string }>({
       </div>
 
       {open && (
-        <div className="absolute top-full left-0 mt-1 py-2 min-w-40 w-max bg-surface-container rounded-lg shadow-[0_1px_2px_rgba(0,0,0,0.3),0_2px_6px_2px_rgba(0,0,0,0.15)] z-50 animate-[menu-in_200ms_ease_forwards]">
+        <div className="absolute top-full left-0 z-50 mt-1 w-max min-w-40 animate-[menu-in_200ms_ease_forwards] rounded-lg bg-surface-container py-2 shadow-[0_1px_2px_rgba(0,0,0,0.3),0_2px_6px_2px_rgba(0,0,0,0.15)]">
           {options.map((opt) => (
             <button
               key={opt.value}
-              className="flex items-center gap-3 w-full h-12 px-4 text-body-large text-on-surface hover:bg-on-surface/8"
+              className="flex h-12 w-full items-center gap-3 px-4 text-body-large text-on-surface hover:bg-on-surface/8"
               onClick={() => {
                 onSelect(opt.value);
                 setOpen(false);
@@ -114,7 +113,7 @@ function FilterChip<T extends { label: string; value: string; hex?: string }>({
             >
               {opt.hex && (
                 <span
-                  className="w-5 h-5 rounded-full border border-outline-variant shrink-0"
+                  className="h-5 w-5 shrink-0 rounded-full border border-outline-variant"
                   style={{ backgroundColor: opt.hex }}
                 />
               )}
@@ -141,7 +140,7 @@ export default function FilterBar({
   const currentColor = COLORS.find((c) => c.value === color);
 
   return (
-    <div className="flex flex-wrap items-center gap-2 my-4">
+    <div className="my-4 flex flex-wrap items-center gap-2">
       <FilterChip
         label={currentOrientation ? currentOrientation.label : "Orientation"}
         selected={!!orientation}

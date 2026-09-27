@@ -5,7 +5,7 @@ const DEFAULT_PER_PAGE = 30;
 
 function clampInt(
   raw: string | null,
-  { min, max, fallback }: { min: number; max: number; fallback: number }
+  { min, max, fallback }: { min: number; max: number; fallback: number },
 ): number {
   const value = Number(raw);
   if (!Number.isFinite(value)) return fallback;
@@ -44,6 +44,6 @@ export function errorResponse(error: unknown): Response {
 
   return Response.json(
     { error: error instanceof Error ? error.message : "Internal server error" },
-    { status: 500 }
+    { status: 500 },
   );
 }

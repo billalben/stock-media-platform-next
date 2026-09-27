@@ -50,10 +50,10 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
-      <body className="min-h-screen flex flex-col">
+      <body className="flex min-h-screen flex-col">
         <ThemeProvider>
           <Header />
-          <div id="main-wrapper" className="flex-1 flex flex-col xl:ml-90">
+          <div id="main-wrapper" className="flex flex-1 flex-col xl:ml-90">
             {children}
             <Footer />
           </div>

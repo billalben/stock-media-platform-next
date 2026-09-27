@@ -22,11 +22,16 @@ export async function generateMetadata({
   };
 }
 
-function isPhoto(item: CollectionMediaItem): item is PexelsPhoto & { type: "Photo" } {
+function isPhoto(
+  item: CollectionMediaItem,
+): item is PexelsPhoto & { type: "Photo" } {
   return item.type === "Photo";
 }
 
-export default async function CollectionDetailPage({ params, searchParams }: Props) {
+export default async function CollectionDetailPage({
+  params,
+  searchParams,
+}: Props) {
   const { id } = await params;
   const { title } = await searchParams;
 
@@ -47,7 +52,7 @@ export default async function CollectionDetailPage({ params, searchParams }: Pro
 
       <main className="flex-1 pt-16">
         <div className="container">
-          <h1 className="text-title-large md:text-headline-small xl:text-headline-medium mb-4 capitalize">
+          <h1 className="mb-4 text-title-large capitalize md:text-headline-small xl:text-headline-medium">
             {title || "Collection"}
           </h1>
 
@@ -58,11 +63,11 @@ export default async function CollectionDetailPage({ params, searchParams }: Pro
                   <PhotoCard key={`photo-${item.id}`} photo={item} />
                 ) : (
                   <VideoCard key={`video-${item.id}`} video={item} />
-                )
+                ),
               )}
             </MasonryGrid>
           ) : (
-            <div className="text-on-surface-variant text-center py-12 text-body-large">
+            <div className="py-12 text-center text-body-large text-on-surface-variant">
               No media in this collection
             </div>
           )}

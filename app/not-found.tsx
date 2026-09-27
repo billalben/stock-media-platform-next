@@ -8,18 +8,18 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <main className="flex-1 grid place-items-center px-4 py-20">
-      <div className="text-center max-w-md">
-        <p className="text-display-large text-primary leading-none">404</p>
-        <h1 className="text-headline-small md:text-headline-medium mt-3 mb-2">
+    <main className="grid flex-1 place-items-center px-4 py-20">
+      <div className="max-w-md text-center">
+        <p className="text-display-large leading-none text-primary">404</p>
+        <h1 className="mt-3 mb-2 text-headline-small md:text-headline-medium">
           Page not found
         </h1>
-        <p className="text-body-large text-on-surface-variant mb-8">
+        <p className="mb-8 text-body-large text-on-surface-variant">
           The page you are looking for does not exist or may have been moved.
         </p>
         <Link
           href="/"
-          className="btn-primary h-10 px-6 rounded-full inline-flex items-center gap-2 text-label-large"
+          className="btn-primary inline-flex h-10 items-center gap-2 rounded-full px-6 text-label-large"
         >
           Back to home
         </Link>

@@ -8,7 +8,11 @@ interface UseInfiniteScrollOptions {
   onLoadMore: () => void;
 }
 
-export function useInfiniteScroll({ hasMore, loading, onLoadMore }: UseInfiniteScrollOptions) {
+export function useInfiniteScroll({
+  hasMore,
+  loading,
+  onLoadMore,
+}: UseInfiniteScrollOptions) {
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   const [isIntersecting, setIsIntersecting] = useState(false);
 
@@ -17,7 +21,7 @@ export function useInfiniteScroll({ hasMore, loading, onLoadMore }: UseInfiniteS
       const [entry] = entries;
       setIsIntersecting(entry.isIntersecting);
     },
-    []
+    [],
   );
 
   useEffect(() => {

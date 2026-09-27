@@ -93,7 +93,7 @@ async function pexelsFetch<T>(url: string, config: FetchConfig): Promise<T> {
         throw new PexelsError(
           `Pexels API error ${res.status}: ${text}`,
           res.status,
-          retryAfter
+          retryAfter,
         );
       }
 
@@ -115,7 +115,7 @@ async function pexelsFetch<T>(url: string, config: FetchConfig): Promise<T> {
           timedOut
             ? "Pexels API request timed out"
             : "Failed to reach the Pexels API",
-          timedOut ? 504 : 502
+          timedOut ? 504 : 502,
         );
       }
 
@@ -135,7 +135,7 @@ export const searchPhotos = cache(
     perPage: number = 30,
     orientation?: string,
     size?: string,
-    color?: string
+    color?: string,
   ) => {
     const params = new URLSearchParams();
     params.set("query", query);
@@ -150,7 +150,7 @@ export const searchPhotos = cache(
       revalidate: 60,
       tags: ["search-photos"],
     });
-  }
+  },
 );
 
 export const getCuratedPhotos = cache(
@@ -160,7 +160,7 @@ export const getCuratedPhotos = cache(
       revalidate: 300,
       tags: ["photos"],
     });
-  }
+  },
 );
 
 export const getPhotoDetail = cache(async (id: number) => {
@@ -179,7 +179,7 @@ export const searchVideos = cache(
     page: number = 1,
     perPage: number = 30,
     orientation?: string,
-    size?: string
+    size?: string,
   ) => {
     const params = new URLSearchParams();
     params.set("query", query);
@@ -192,7 +192,7 @@ export const searchVideos = cache(
       revalidate: 60,
       tags: ["search-videos"],
     });
-  }
+  },
 );
 
 export const getPopularVideos = cache(
@@ -202,7 +202,7 @@ export const getPopularVideos = cache(
       revalidate: 300,
       tags: ["videos"],
     });
-  }
+  },
 );
 
 export const getVideoDetail = cache(async (id: number) => {
@@ -222,7 +222,7 @@ export const getFeaturedCollections = cache(
       revalidate: 300,
       tags: ["collections"],
     });
-  }
+  },
 );
 
 export const getCollectionMedia = cache(
@@ -232,5 +232,5 @@ export const getCollectionMedia = cache(
       revalidate: 300,
       tags: [`collection-${id}`],
     });
-  }
+  },
 );

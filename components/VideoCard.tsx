@@ -50,7 +50,7 @@ export default function VideoCard({ video }: VideoCardProps) {
 
   return (
     <div
-      className="card break-inside-avoid mb-2 md:mb-3 bg-surface-container-highest"
+      className="card mb-2 break-inside-avoid bg-surface-container-highest md:mb-3"
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
     >
@@ -65,7 +65,7 @@ export default function VideoCard({ video }: VideoCardProps) {
           loop
           preload="none"
           playsInline
-          className={`w-full h-full object-cover scale-105 ${loaded ? "opacity-100" : "opacity-0"}`}
+          className={`h-full w-full scale-105 object-cover ${loaded ? "opacity-100" : "opacity-0"}`}
           onLoadedData={() => setLoaded(true)}
         >
           <source src={sdVideo.link} type={sdVideo.file_type} />
@@ -75,7 +75,7 @@ export default function VideoCard({ video }: VideoCardProps) {
           alt=""
           width={width}
           height={height}
-          className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-400 ${loaded ? "opacity-0" : "opacity-100"}`}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-400 ${loaded ? "opacity-0" : "opacity-100"}`}
           loading="lazy"
         />
       </div>
@@ -84,7 +84,7 @@ export default function VideoCard({ video }: VideoCardProps) {
         <Play size={16} />
       </div>
 
-      <div className="card-favorite-bar absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/75 to-transparent p-1.25 flex justify-end z-2">
+      <div className="card-favorite-bar absolute right-0 bottom-0 left-0 z-2 flex justify-end bg-linear-to-t from-black/75 to-transparent p-1.25">
         <FavoriteButton type="videos" id={id} data={video} small />
       </div>
 

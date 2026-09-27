@@ -76,15 +76,15 @@ export default function SearchBar() {
       {/* Desktop: inline search with dropdown */}
       <div
         ref={desktopRef}
-        className="hidden md:block relative w-full max-w-140 xl:max-w-180"
+        className="relative hidden w-full max-w-140 md:block xl:max-w-180"
       >
-        <div className="bg-surface-container-high rounded-3xl overflow-hidden focus-within:shadow-md">
-          <div className="flex items-center h-12 px-4 gap-4">
-            <Search size={32} className="text-on-surface-variant shrink-0" />
+        <div className="overflow-hidden rounded-3xl bg-surface-container-high focus-within:shadow-md">
+          <div className="flex h-12 items-center gap-4 px-4">
+            <Search size={32} className="shrink-0 text-on-surface-variant" />
             <input
               type="search"
               placeholder="Search..."
-              className="flex-1 h-full bg-transparent text-on-surface text-body-large outline-none placeholder:text-on-surface-variant"
+              className="h-full flex-1 bg-transparent text-body-large text-on-surface outline-none placeholder:text-on-surface-variant"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -92,7 +92,7 @@ export default function SearchBar() {
             />
             {query && (
               <button
-                className="icon-btn w-8! h-8! min-w-8!"
+                className="icon-btn h-8! w-8! min-w-8!"
                 onClick={() => setQuery("")}
                 aria-label="Clear"
               >
@@ -111,13 +111,12 @@ export default function SearchBar() {
 
         {/* Desktop dropdown */}
         {focused && (
-          <div className="absolute left-0 right-0 top-full mt-1 rounded-2xl bg-surface-container-high shadow-[0_1px_2px_rgba(0,0,0,0.3),0_2px_6px_2px_rgba(0,0,0,0.15)] z-50 animate-[menu-in_200ms_ease_forwards]">
+          <div className="absolute top-full right-0 left-0 z-50 mt-1 animate-[menu-in_200ms_ease_forwards] rounded-2xl bg-surface-container-high shadow-[0_1px_2px_rgba(0,0,0,0.3),0_2px_6px_2px_rgba(0,0,0,0.15)]">
             {/* Segment toggle */}
-            <div className="flex m-4 border border-outline rounded-full overflow-hidden">
+            <div className="m-4 flex overflow-hidden rounded-full border border-outline">
               <button
                 onClick={() => setType("photos")}
-                className={`flex-1 flex justify-center items-center gap-2 h-10 px-3 text-label-large
-                  ${type === "photos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
+                className={`flex h-10 flex-1 items-center justify-center gap-2 px-3 text-label-large ${type === "photos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
               >
                 {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 <Image size={28} aria-hidden="true" />
@@ -125,8 +124,7 @@ export default function SearchBar() {
               </button>
               <button
                 onClick={() => setType("videos")}
-                className={`flex-1 flex justify-center items-center gap-2 h-10 px-3 text-label-large border-l border-outline
-                  ${type === "videos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
+                className={`flex h-10 flex-1 items-center justify-center gap-2 border-l border-outline px-3 text-label-large ${type === "videos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
               >
                 <Video size={28} />
                 Videos
@@ -141,12 +139,12 @@ export default function SearchBar() {
                 {history.slice(0, 5).map((item) => (
                   <button
                     key={item}
-                    className="flex items-center gap-4 w-full h-12 px-4 text-on-surface text-body-large hover:bg-on-surface/8"
+                    className="flex h-12 w-full items-center gap-4 px-4 text-body-large text-on-surface hover:bg-on-surface/8"
                     onClick={() => handleHistoryClick(item)}
                   >
                     <History
                       size={28}
-                      className="text-on-surface-variant shrink-0"
+                      className="shrink-0 text-on-surface-variant"
                     />
                     <span className="truncate">{item}</span>
                   </button>
@@ -159,8 +157,8 @@ export default function SearchBar() {
 
       {/* Mobile: fullscreen search overlay */}
       {open && (
-        <div className="md:hidden fixed inset-0 z-50 bg-surface-container-high">
-          <div className="flex items-center gap-2 h-18 px-1 border-b border-outline">
+        <div className="fixed inset-0 z-50 bg-surface-container-high md:hidden">
+          <div className="flex h-18 items-center gap-2 border-b border-outline px-1">
             <button
               className="icon-btn"
               onClick={() => setOpen(false)}
@@ -168,12 +166,12 @@ export default function SearchBar() {
             >
               <ArrowLeft size={24} />
             </button>
-            <div className="flex-1 h-full flex items-center">
+            <div className="flex h-full flex-1 items-center">
               <input
                 ref={inputRef}
                 type="search"
                 placeholder="Search..."
-                className="w-full h-full bg-transparent text-on-surface text-body-large outline-none placeholder:text-on-surface-variant"
+                className="h-full w-full bg-transparent text-body-large text-on-surface outline-none placeholder:text-on-surface-variant"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -202,11 +200,10 @@ export default function SearchBar() {
           </div>
 
           {/* Segment toggle */}
-          <div className="flex m-4 border border-outline rounded-full overflow-hidden">
+          <div className="m-4 flex overflow-hidden rounded-full border border-outline">
             <button
               onClick={() => setType("photos")}
-              className={`flex-1 flex justify-center items-center gap-2 h-10 px-3 text-label-large
-                ${type === "photos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
+              className={`flex h-10 flex-1 items-center justify-center gap-2 px-3 text-label-large ${type === "photos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
             >
               {/* eslint-disable-next-line jsx-a11y/alt-text */}
               <Image size={28} aria-hidden="true" />
@@ -214,8 +211,7 @@ export default function SearchBar() {
             </button>
             <button
               onClick={() => setType("videos")}
-              className={`flex-1 flex justify-center items-center gap-2 h-10 px-3 text-label-large border-l border-outline
-                ${type === "videos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
+              className={`flex h-10 flex-1 items-center justify-center gap-2 border-l border-outline px-3 text-label-large ${type === "videos" ? "bg-secondary-container text-on-secondary-container" : "text-on-surface"}`}
             >
               <Video size={28} />
               Videos
@@ -230,7 +226,7 @@ export default function SearchBar() {
               {history.map((item) => (
                 <button
                   key={item}
-                  className="flex items-center gap-4 w-full h-12 px-4 text-on-surface text-body-large"
+                  className="flex h-12 w-full items-center gap-4 px-4 text-body-large text-on-surface"
                   onClick={() => handleHistoryClick(item)}
                 >
                   <History size={28} className="text-on-surface-variant" />

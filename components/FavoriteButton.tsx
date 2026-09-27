@@ -32,7 +32,7 @@ export default function FavoriteButton({
   return (
     <button
       ref={btnRef}
-      className={`icon-btn ${small ? "w-10! h-10! min-w-10!" : ""} ${active ? "active" : ""}`}
+      className={`icon-btn ${small ? "h-10! w-10! min-w-10!" : ""} ${active ? "active" : ""}`}
       onClick={handleClick}
       aria-label={active ? "Remove from favorites" : "Add to favorites"}
     >

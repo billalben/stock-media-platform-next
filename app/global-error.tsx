@@ -11,18 +11,18 @@ export default function GlobalError({
   return (
     <html lang="en">
       <body>
-        <main className="min-h-screen grid place-items-center px-4 py-20">
-          <div className="text-center max-w-md">
-            <h1 className="text-headline-small md:text-headline-medium mb-2">
+        <main className="grid min-h-screen place-items-center px-4 py-20">
+          <div className="max-w-md text-center">
+            <h1 className="mb-2 text-headline-small md:text-headline-medium">
               Something went wrong
             </h1>
-            <p className="text-body-large text-on-surface-variant mb-8">
+            <p className="mb-8 text-body-large text-on-surface-variant">
               An unexpected error occurred. Please try again.
             </p>
             <button
               type="button"
               onClick={() => unstable_retry()}
-              className="btn-primary h-10 px-6 rounded-full inline-flex items-center gap-2 text-label-large"
+              className="btn-primary inline-flex h-10 items-center gap-2 rounded-full px-6 text-label-large"
             >
               Try again
             </button>
