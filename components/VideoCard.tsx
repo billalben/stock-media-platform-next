@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Play } from "lucide-react";
@@ -22,11 +22,18 @@ export default function VideoCard({ video }: VideoCardProps) {
     video_files.find((f) => f.quality === "sd" && f.width < 1000) ||
     video_files[0];
 
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
+
   const handlePointerOver = useCallback(() => {
     timerRef.current = setTimeout(() => {
       const badge = badgeRef.current;
       if (badge) badge.style.display = "none";
-      videoRef.current?.play();
+      const v = videoRef.current;
+      if (v) {
+        v.play().catch(() => {});
+      }
     }, 500);
   }, []);
 
