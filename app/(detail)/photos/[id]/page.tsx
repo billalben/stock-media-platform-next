@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getCuratedPhotos, getPhotoDetail, searchPhotos } from "@/lib/pexels";
 import PhotoCard from "@/components/PhotoCard";
@@ -75,13 +74,14 @@ export default async function PhotoDetailPage({ params }: Props) {
           {/* Photo Preview */}
           <div className="detail-wrapper grid h-147 grid-rows-[1fr_max-content] place-items-center xl:sticky xl:top-19 xl:h-197">
             <div className="mx-auto mb-2 max-h-full max-w-full overflow-hidden rounded-2xl xl:max-h-190">
-              <Image
+              <img
                 src={photo.src.large2x}
                 alt={photo.alt}
                 width={photo.width}
                 height={photo.height}
                 className="h-auto max-h-full w-auto max-w-full object-contain"
-                priority
+                loading="eager"
+                fetchPriority="high"
               />
             </div>
             <p className="text-center text-title-small">

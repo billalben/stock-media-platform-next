@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { PexelsPhoto } from "@/types/pexels";
 import FavoriteButton from "./FavoriteButton";
 
@@ -19,7 +18,7 @@ export default function PhotoCard({ photo }: PhotoCardProps) {
         className="relative w-full"
         style={{ aspectRatio: `${width} / ${height}` }}
       >
-        <Image
+        <img
           src={src.large}
           alt={alt}
           width={width}

@@ -2,7 +2,6 @@
 
 import { useRef, useState, useCallback, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Play } from "lucide-react";
 import type { PexelsVideo } from "@/types/pexels";
 import FavoriteButton from "./FavoriteButton";
@@ -70,7 +69,7 @@ export default function VideoCard({ video }: VideoCardProps) {
         >
           <source src={sdVideo.link} type={sdVideo.file_type} />
         </video>
-        <Image
+        <img
           src={image}
           alt=""
           width={width}
