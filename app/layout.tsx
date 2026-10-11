@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
 import { ThemeProvider } from "@/context/ThemeProvider";
-import { MediaLightboxProvider } from "@/components/MediaLightbox";
+import MediaLightbox from "@/components/MediaLightbox";
 import { SITE_URL } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -51,6 +51,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <script
+          id="theme-init"
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.dataset.theme=t;}catch(e){}})();`,
           }}
@@ -58,14 +59,13 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-screen flex-col">
         <ThemeProvider>
-          <MediaLightboxProvider>
-            <Header />
-            <div id="main-wrapper" className="flex flex-1 flex-col xl:ml-90">
-              {children}
-              <Footer />
-            </div>
-          </MediaLightboxProvider>
+          <Header />
+          <div id="main-wrapper" className="flex flex-1 flex-col xl:ml-90">
+            {children}
+            <Footer />
+          </div>
         </ThemeProvider>
+        <MediaLightbox />
       </body>
     </html>
   );

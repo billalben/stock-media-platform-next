@@ -4,7 +4,7 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { Play } from "lucide-react";
 import type { PexelsVideo } from "@/types/pexels";
 import FavoriteButton from "./FavoriteButton";
-import { useMediaLightbox, type LightboxItem } from "./MediaLightbox";
+import { openLightbox, type LightboxItem } from "@/lib/lightbox-store";
 
 interface VideoCardProps {
   video: PexelsVideo;
@@ -17,7 +17,6 @@ export default function VideoCard({ video, lightboxItems }: VideoCardProps) {
   const [loaded, setLoaded] = useState(false);
   const badgeRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const { open } = useMediaLightbox();
 
   const sdVideo =
     video_files.find((f) => f.quality === "sd" && f.width < 1000) ||
@@ -57,8 +56,8 @@ export default function VideoCard({ video, lightboxItems }: VideoCardProps) {
       0,
       list.findIndex((v) => v.id === video.id),
     );
-    open(items, index);
-  }, [lightboxItems, video, open]);
+    openLightbox(items, index);
+  }, [lightboxItems, video]);
 
   return (
     <div

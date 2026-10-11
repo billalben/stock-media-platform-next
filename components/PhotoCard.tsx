@@ -3,7 +3,7 @@
 import { useCallback } from "react";
 import type { PexelsPhoto } from "@/types/pexels";
 import FavoriteButton from "./FavoriteButton";
-import { useMediaLightbox, type LightboxItem } from "./MediaLightbox";
+import { openLightbox, type LightboxItem } from "@/lib/lightbox-store";
 
 interface PhotoCardProps {
   photo: PexelsPhoto;
@@ -12,7 +12,6 @@ interface PhotoCardProps {
 
 export default function PhotoCard({ photo, lightboxItems }: PhotoCardProps) {
   const { id, width, height, src, alt, avg_color } = photo;
-  const { open } = useMediaLightbox();
 
   const handleOpen = useCallback(() => {
     const list =
@@ -22,8 +21,8 @@ export default function PhotoCard({ photo, lightboxItems }: PhotoCardProps) {
       0,
       list.findIndex((p) => p.id === photo.id),
     );
-    open(items, index);
-  }, [lightboxItems, photo, open]);
+    openLightbox(items, index);
+  }, [lightboxItems, photo]);
 
   return (
     <div

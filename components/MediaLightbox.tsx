@@ -1,35 +1,23 @@
 "use client";
 
 import {
-  createContext,
   useCallback,
-  useContext,
   useEffect,
-  useMemo,
   useRef,
-  useState,
+  useSyncExternalStore,
   type KeyboardEvent,
-  type ReactNode,
 } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, ExternalLink, X } from "lucide-react";
 import FullscreenButton from "./FullscreenButton";
-import type { PexelsPhoto, PexelsVideo } from "@/types/pexels";
-
-export type LightboxItem =
-  | { type: "photo"; data: PexelsPhoto }
-  | { type: "video"; data: PexelsVideo };
-
-interface LightboxState {
-  items: LightboxItem[];
-  index: number;
-}
-
-interface LightboxContextValue {
-  open: (items: LightboxItem[], index: number) => void;
-}
-
-const LightboxContext = createContext<LightboxContextValue | null>(null);
+import {
+  closeLightbox,
+  getServerSnapshot,
+  getSnapshot,
+  navigateLightbox,
+  subscribe,
+  type LightboxItem,
+} from "@/lib/lightbox-store";
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), video, [tabindex]:not([tabindex="-1"])';
@@ -52,43 +40,23 @@ function trapFocus(event: KeyboardEvent<HTMLElement>, container: HTMLElement) {
   }
 }
 
-export function MediaLightboxProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<LightboxState | null>(null);
+export default function MediaLightbox() {
+  const state = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot,
+  );
 
-  const open = useCallback((items: LightboxItem[], index: number) => {
-    if (items.length === 0) return;
-    setState({ items, index: Math.min(Math.max(index, 0), items.length - 1) });
-  }, []);
-
-  const close = useCallback(() => setState(null), []);
-
-  const navigate = useCallback((index: number) => {
-    setState((prev) => (prev ? { ...prev, index } : prev));
-  }, []);
-
-  const contextValue = useMemo(() => ({ open }), [open]);
+  if (!state) return null;
 
   return (
-    <LightboxContext.Provider value={contextValue}>
-      {children}
-      {state && (
-        <LightboxOverlay
-          items={state.items}
-          index={state.index}
-          onClose={close}
-          onNavigate={navigate}
-        />
-      )}
-    </LightboxContext.Provider>
+    <LightboxOverlay
+      items={state.items}
+      index={state.index}
+      onClose={closeLightbox}
+      onNavigate={navigateLightbox}
+    />
   );
-}
-
-export function useMediaLightbox() {
-  const ctx = useContext(LightboxContext);
-  if (!ctx) {
-    throw new Error("useMediaLightbox must be used within MediaLightboxProvider");
-  }
-  return ctx;
 }
 
 function LightboxOverlay({
