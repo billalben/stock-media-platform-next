@@ -10,6 +10,8 @@ import {
 
 type Theme = "light" | "dark";
 
+const STORAGE_KEY = "theme";
+
 interface ThemeContextValue {
   theme: Theme;
   toggleTheme: () => void;
@@ -17,10 +19,17 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "light";
-  const stored = sessionStorage.getItem("theme");
-  if (stored === "light" || stored === "dark") return stored;
+function resolveInitialTheme(): Theme {
+  const domTheme = document.documentElement.dataset.theme;
+  if (domTheme === "light" || domTheme === "dark") return domTheme;
+
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored === "light" || stored === "dark") return stored;
+  } catch {
+    // Ignore storage failures (privacy mode).
+  }
+
   return window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light";
@@ -31,14 +40,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setTheme(getInitialTheme());
+    setTheme(resolveInitialTheme());
     setMounted(true);
   }, []);
 
   useEffect(() => {
     if (!mounted) return;
     document.documentElement.setAttribute("data-theme", theme);
-    sessionStorage.setItem("theme", theme);
+    try {
+      localStorage.setItem(STORAGE_KEY, theme);
+    } catch {
+      // Ignore storage failures (privacy mode).
+    }
   }, [theme, mounted]);
 
   const toggleTheme = useCallback(() => {
@@ -47,11 +60,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {mounted ? (
-        children
-      ) : (
-        <div style={{ visibility: "hidden" }}>{children}</div>
-      )}
+      {children}
     </ThemeContext.Provider>
   );
 }
