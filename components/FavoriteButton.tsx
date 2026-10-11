@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, type MouseEvent } from "react";
 import { Heart } from "lucide-react";
 import { useFavorites } from "@/hooks/useFavorites";
 import type { PexelsPhoto, PexelsVideo } from "@/types/pexels";
@@ -22,12 +22,16 @@ export default function FavoriteButton({
   const btnRef = useRef<HTMLButtonElement>(null);
   const active = isFavorite(type, id);
 
-  const handleClick = useCallback(() => {
-    const btn = btnRef.current;
-    if (btn) btn.disabled = true;
-    toggleFavorite(type, id, active ? undefined : data);
-    if (btn) btn.disabled = false;
-  }, [type, id, active, data, toggleFavorite]);
+  const handleClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      const btn = btnRef.current;
+      if (btn) btn.disabled = true;
+      toggleFavorite(type, id, active ? undefined : data);
+      if (btn) btn.disabled = false;
+    },
+    [type, id, active, data, toggleFavorite],
+  );
 
   return (
     <button

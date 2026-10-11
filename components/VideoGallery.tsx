@@ -114,7 +114,7 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
       ) : videos.length > 0 ? (
         <MasonryGrid>
           {videos.map((video) => (
-            <VideoCard key={video.id} video={video} />
+            <VideoCard key={video.id} video={video} lightboxItems={videos} />
           ))}
         </MasonryGrid>
       ) : (

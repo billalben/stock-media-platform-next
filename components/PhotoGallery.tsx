@@ -125,7 +125,7 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
       ) : photos.length > 0 ? (
         <MasonryGrid>
           {photos.map((photo) => (
-            <PhotoCard key={photo.id} photo={photo} />
+            <PhotoCard key={photo.id} photo={photo} lightboxItems={photos} />
           ))}
         </MasonryGrid>
       ) : (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPopularVideos, getVideoDetail } from "@/lib/pexels";
 import DetailHeader from "@/components/DetailHeader";
+import FullscreenButton from "@/components/FullscreenButton";
 import type { PexelsVideo } from "@/types/pexels";
 
 interface Props {
@@ -71,7 +72,10 @@ export default async function VideoDetailPage({ params }: Props) {
         <div className="container xl:grid xl:max-w-360 xl:grid-cols-[1fr_minmax(0,1fr)] xl:items-start xl:gap-6">
           {/* Video Player */}
           <div className="detail-wrapper grid h-147 grid-rows-[1fr_max-content] place-items-center xl:sticky xl:top-19 xl:h-197">
-            <div className="mx-auto mb-2 max-h-full max-w-full overflow-hidden rounded-2xl xl:max-h-190">
+            <div
+              id="detail-media"
+              className="relative mx-auto mb-2 max-h-full max-w-full overflow-hidden rounded-2xl bg-scrim xl:max-h-190"
+            >
               <video
                 src={bestVideo.link}
                 poster={video.image}
@@ -83,6 +87,10 @@ export default async function VideoDetailPage({ params }: Props) {
                   <source key={f.id} src={f.link} type={f.file_type} />
                 ))}
               </video>
+              <FullscreenButton
+                targetId="detail-media"
+                className="icon-btn absolute top-2 right-2 z-10 bg-black/40 text-white hover:bg-black/60"
+              />
             </div>
             <p className="text-center text-title-small">
               Video by{" "}

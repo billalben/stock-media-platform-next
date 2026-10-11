@@ -309,6 +309,7 @@
     color: var(--_on-secondary-container);
     border-radius: 8px;
     z-index: 2;
+    pointer-events: none;
   }
 
   .btn-primary {

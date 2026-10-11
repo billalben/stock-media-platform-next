@@ -5,7 +5,7 @@ import PhotoCard from "@/components/PhotoCard";
 import VideoCard from "@/components/VideoCard";
 import MasonryGrid from "@/components/MasonryGrid";
 import CollectionDetailHeader from "@/components/CollectionDetailHeader";
-import type { CollectionMediaItem, PexelsPhoto } from "@/types/pexels";
+import type { CollectionMediaItem, PexelsPhoto, PexelsVideo } from "@/types/pexels";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -46,6 +46,11 @@ export default async function CollectionDetailPage({
     notFound();
   }
 
+  const photos = media.filter(isPhoto);
+  const videos = media.filter(
+    (item): item is PexelsVideo & { type: "Video" } => item.type === "Video",
+  );
+
   return (
     <>
       <CollectionDetailHeader title={title} />
@@ -60,9 +65,17 @@ export default async function CollectionDetailPage({
             <MasonryGrid>
               {media.map((item) =>
                 isPhoto(item) ? (
-                  <PhotoCard key={`photo-${item.id}`} photo={item} />
+                  <PhotoCard
+                    key={`photo-${item.id}`}
+                    photo={item}
+                    lightboxItems={photos}
+                  />
                 ) : (
-                  <VideoCard key={`video-${item.id}`} video={item} />
+                  <VideoCard
+                    key={`video-${item.id}`}
+                    video={item}
+                    lightboxItems={videos}
+                  />
                 ),
               )}
             </MasonryGrid>

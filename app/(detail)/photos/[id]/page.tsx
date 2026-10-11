@@ -4,6 +4,7 @@ import { getCuratedPhotos, getPhotoDetail, searchPhotos } from "@/lib/pexels";
 import PhotoCard from "@/components/PhotoCard";
 import MasonryGrid from "@/components/MasonryGrid";
 import DetailHeader from "@/components/DetailHeader";
+import FullscreenButton from "@/components/FullscreenButton";
 import type { PexelsPhoto, PexelsPhotosResponse } from "@/types/pexels";
 
 interface Props {
@@ -60,6 +61,9 @@ export default async function PhotoDetailPage({ params }: Props) {
     { label: "Small", url: photo.src.medium },
   ];
 
+  const similarPhotos =
+    similar?.photos.filter((p) => p.id !== photo.id).slice(0, 9) ?? [];
+
   return (
     <>
       <DetailHeader
@@ -73,7 +77,10 @@ export default async function PhotoDetailPage({ params }: Props) {
         <div className="container xl:grid xl:max-w-360 xl:grid-cols-[1fr_minmax(0,1fr)] xl:items-start xl:gap-6">
           {/* Photo Preview */}
           <div className="detail-wrapper grid h-147 grid-rows-[1fr_max-content] place-items-center xl:sticky xl:top-19 xl:h-197">
-            <div className="mx-auto mb-2 max-h-full max-w-full overflow-hidden rounded-2xl xl:max-h-190">
+            <div
+              id="detail-media"
+              className="relative mx-auto mb-2 max-h-full max-w-full overflow-hidden rounded-2xl bg-scrim xl:max-h-190"
+            >
               <img
                 src={photo.src.large2x}
                 alt={photo.alt}
@@ -82,6 +89,10 @@ export default async function PhotoDetailPage({ params }: Props) {
                 className="h-auto max-h-full w-auto max-w-full object-contain"
                 loading="eager"
                 fetchPriority="high"
+              />
+              <FullscreenButton
+                targetId="detail-media"
+                className="icon-btn absolute top-2 right-2 z-10 bg-black/40 text-white hover:bg-black/60"
               />
             </div>
             <p className="text-center text-title-small">
@@ -103,18 +114,19 @@ export default async function PhotoDetailPage({ params }: Props) {
               {photo.alt || "Photo Detail"}
             </h1>
 
-            {similar && similar.photos.length > 0 && (
+            {similarPhotos.length > 0 && (
               <section>
                 <h2 className="mb-3 text-title-large md:mb-5">
                   More like this
                 </h2>
                 <MasonryGrid>
-                  {similar.photos
-                    .filter((p) => p.id !== photo.id)
-                    .slice(0, 9)
-                    .map((p) => (
-                      <PhotoCard key={p.id} photo={p} />
-                    ))}
+                  {similarPhotos.map((p) => (
+                    <PhotoCard
+                      key={p.id}
+                      photo={p}
+                      lightboxItems={similarPhotos}
+                    />
+                  ))}
                 </MasonryGrid>
               </section>
             )}

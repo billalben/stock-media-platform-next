@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
 import { ThemeProvider } from "@/context/ThemeProvider";
+import { MediaLightboxProvider } from "@/components/MediaLightbox";
 import { SITE_URL } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -57,11 +58,13 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-screen flex-col">
         <ThemeProvider>
-          <Header />
-          <div id="main-wrapper" className="flex flex-1 flex-col xl:ml-90">
-            {children}
-            <Footer />
-          </div>
+          <MediaLightboxProvider>
+            <Header />
+            <div id="main-wrapper" className="flex flex-1 flex-col xl:ml-90">
+              {children}
+              <Footer />
+            </div>
+          </MediaLightboxProvider>
         </ThemeProvider>
       </body>
     </html>

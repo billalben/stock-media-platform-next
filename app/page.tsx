@@ -48,7 +48,7 @@ async function FeaturedPhotos() {
     <div className="relative">
       <MasonryGrid>
         {photos.map((photo) => (
-          <PhotoCard key={photo.id} photo={photo} />
+          <PhotoCard key={photo.id} photo={photo} lightboxItems={photos} />
         ))}
       </MasonryGrid>
       <div className="pointer-events-none absolute -bottom-0.5 left-0 z-1 grid w-full place-items-center bg-linear-to-t from-background from-30% to-transparent pt-16 pb-6">
@@ -80,7 +80,7 @@ async function PopularVideos() {
     <div className="relative">
       <MasonryGrid>
         {videos.map((video) => (
-          <VideoCard key={video.id} video={video} />
+          <VideoCard key={video.id} video={video} lightboxItems={videos} />
         ))}
       </MasonryGrid>
       <div className="pointer-events-none absolute -bottom-0.5 left-0 z-1 grid w-full place-items-center bg-linear-to-t from-background from-30% to-transparent pt-16 pb-6">

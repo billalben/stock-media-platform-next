@@ -43,7 +43,7 @@ export default function FavoritesContent() {
           {photos.length > 0 ? (
             <MasonryGrid>
               {photos.map((photo) => (
-                <PhotoCard key={photo.id} photo={photo} />
+                <PhotoCard key={photo.id} photo={photo} lightboxItems={photos} />
               ))}
             </MasonryGrid>
           ) : (
@@ -59,7 +59,7 @@ export default function FavoritesContent() {
           {videos.length > 0 ? (
             <MasonryGrid>
               {videos.map((video) => (
-                <VideoCard key={video.id} video={video} />
+                <VideoCard key={video.id} video={video} lightboxItems={videos} />
               ))}
             </MasonryGrid>
           ) : (
