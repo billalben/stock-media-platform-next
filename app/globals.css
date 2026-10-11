@@ -377,6 +377,20 @@
     scroll-snap-type: inline mandatory;
     scroll-snap-stop: always;
     overscroll-behavior-x: contain;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .banner.dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+
+  .banner a,
+  .banner img {
+    -webkit-user-drag: none;
   }
 
   .banner::-webkit-scrollbar {

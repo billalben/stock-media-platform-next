@@ -1,5 +1,6 @@
 import type React from "react";
 import Link from "next/link";
+import DragScroll from "./DragScroll";
 
 type BannerVariant = "primary" | "secondary" | "tertiary";
 
@@ -58,7 +59,7 @@ function BannerGrid({
 
 export default function BannerSection() {
   return (
-    <section className="banner" aria-label="Banner">
+    <DragScroll className="banner" label="Banner">
       {/* Primary: Photos */}
       <BannerCard
         variant="primary"
@@ -115,7 +116,7 @@ export default function BannerSection() {
           ]}
         />
       </BannerCard>
-    </section>
+    </DragScroll>
   );
 }
 
