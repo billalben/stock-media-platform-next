@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPopularVideos, getVideoDetail } from "@/lib/pexels";
+import { getPopularVideos, getVideoDetail, PexelsError } from "@/lib/pexels";
 import DetailHeader from "@/components/DetailHeader";
 import FullscreenButton from "@/components/FullscreenButton";
+import ErrorState from "@/components/ErrorState";
+import { getFriendlyError } from "@/lib/error-messages";
 import type { PexelsVideo } from "@/types/pexels";
 
 interface Props {
@@ -43,12 +45,27 @@ export default async function VideoDetailPage({ params }: Props) {
 
   if (!videoId) notFound();
 
-  let video: PexelsVideo;
+  let video: PexelsVideo | null = null;
+  let loadError: unknown = null;
 
   try {
     video = await getVideoDetail(videoId);
-  } catch {
-    notFound();
+  } catch (error) {
+    loadError = error;
+  }
+
+  if (!video) {
+    if (loadError instanceof PexelsError && loadError.status === 404) {
+      notFound();
+    }
+    const status = loadError instanceof PexelsError ? loadError.status : undefined;
+    return (
+      <main className="flex-1 pt-16">
+        <div className="container">
+          <ErrorState {...getFriendlyError(status)} />
+        </div>
+      </main>
+    );
   }
 
   const hdVideo = video.video_files.find((f) => f.quality === "hd");

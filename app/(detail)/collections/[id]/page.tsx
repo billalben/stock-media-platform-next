@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCollectionMedia } from "@/lib/pexels";
+import { getCollectionMedia, PexelsError } from "@/lib/pexels";
 import PhotoCard from "@/components/PhotoCard";
 import VideoCard from "@/components/VideoCard";
 import MasonryGrid from "@/components/MasonryGrid";
 import CollectionDetailHeader from "@/components/CollectionDetailHeader";
+import ErrorState from "@/components/ErrorState";
+import { getFriendlyError } from "@/lib/error-messages";
 import type { CollectionMediaItem, PexelsPhoto, PexelsVideo } from "@/types/pexels";
 
 interface Props {
@@ -38,12 +40,30 @@ export default async function CollectionDetailPage({
   if (!id) notFound();
 
   let media: CollectionMediaItem[] = [];
+  let loadError: unknown = null;
 
   try {
     const data = await getCollectionMedia(id, 1, 60);
     media = data.media || [];
-  } catch {
-    notFound();
+  } catch (error) {
+    loadError = error;
+  }
+
+  if (loadError) {
+    if (loadError instanceof PexelsError && loadError.status === 404) {
+      notFound();
+    }
+    const status = loadError instanceof PexelsError ? loadError.status : undefined;
+    return (
+      <>
+        <CollectionDetailHeader title={title} />
+        <main className="flex-1 pt-16">
+          <div className="container">
+            <ErrorState {...getFriendlyError(status)} />
+          </div>
+        </main>
+      </>
+    );
   }
 
   const photos = media.filter(isPhoto);

@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCuratedPhotos, getPhotoDetail, searchPhotos } from "@/lib/pexels";
+import {
+  getCuratedPhotos,
+  getPhotoDetail,
+  searchPhotos,
+  PexelsError,
+} from "@/lib/pexels";
 import PhotoCard from "@/components/PhotoCard";
 import MasonryGrid from "@/components/MasonryGrid";
 import DetailHeader from "@/components/DetailHeader";
 import FullscreenButton from "@/components/FullscreenButton";
+import ErrorState from "@/components/ErrorState";
+import { getFriendlyError } from "@/lib/error-messages";
 import type { PexelsPhoto, PexelsPhotosResponse } from "@/types/pexels";
 
 interface Props {
@@ -39,7 +46,8 @@ export default async function PhotoDetailPage({ params }: Props) {
 
   if (!photoId) notFound();
 
-  let photo: PexelsPhoto;
+  let photo: PexelsPhoto | null = null;
+  let loadError: unknown = null;
   let similar: PexelsPhotosResponse | null = null;
 
   try {
@@ -50,8 +58,22 @@ export default async function PhotoDetailPage({ params }: Props) {
     } catch {
       similar = null;
     }
-  } catch {
-    notFound();
+  } catch (error) {
+    loadError = error;
+  }
+
+  if (!photo) {
+    if (loadError instanceof PexelsError && loadError.status === 404) {
+      notFound();
+    }
+    const status = loadError instanceof PexelsError ? loadError.status : undefined;
+    return (
+      <main className="flex-1 pt-16">
+        <div className="container">
+          <ErrorState {...getFriendlyError(status)} />
+        </div>
+      </main>
+    );
   }
 
   const downloads = [

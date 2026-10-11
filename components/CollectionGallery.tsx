@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import CollectionCard from "@/components/CollectionCard";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import CollectionListSkeleton from "@/components/CollectionListSkeleton";
+import ErrorState from "@/components/ErrorState";
+import { getFriendlyError } from "@/lib/error-messages";
 import type { PexelsCollection } from "@/types/pexels";
 
 export default function CollectionGallery() {
@@ -12,6 +14,7 @@ export default function CollectionGallery() {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [errorStatus, setErrorStatus] = useState<number | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
   const fetchCollections = useCallback(
@@ -26,6 +29,12 @@ export default function CollectionGallery() {
           `/api/collections/featured?page=${pageNum}&per_page=30`,
           { signal: controller.signal },
         );
+        if (!res.ok) {
+          setErrorStatus(res.status);
+          setHasMore(false);
+          return;
+        }
+        setErrorStatus(null);
         const data = await res.json();
 
         setCollections((prev) =>
@@ -60,8 +69,22 @@ export default function CollectionGallery() {
     fetchCollections(nextPage);
   }, [page, loading, hasMore, fetchCollections]);
 
+  const retry = useCallback(() => {
+    setErrorStatus(null);
+    setPage(1);
+    setCollections([]);
+    setHasMore(true);
+    fetchCollections(1, true);
+  }, [fetchCollections]);
+
   if (initialLoading) {
     return <CollectionListSkeleton />;
+  }
+
+  if (errorStatus !== null && collections.length === 0) {
+    return (
+      <ErrorState {...getFriendlyError(errorStatus)} onRetry={retry} />
+    );
   }
 
   return (

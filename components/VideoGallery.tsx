@@ -6,6 +6,8 @@ import MasonryGrid from "@/components/MasonryGrid";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import FilterBar from "@/components/FilterBar";
 import GallerySkeleton from "@/components/GallerySkeleton";
+import ErrorState from "@/components/ErrorState";
+import { getFriendlyError } from "@/lib/error-messages";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import type { PexelsVideo } from "@/types/pexels";
 
@@ -19,6 +21,7 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [errorStatus, setErrorStatus] = useState<number | null>(null);
   const [orientation, setOrientation] = useState("");
   const [size, setSize] = useState("");
   const initialQueryRef = useRef(initialQuery);
@@ -53,6 +56,12 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
           : `/api/videos/popular?${params}`;
 
         const res = await fetch(endpoint, { signal: controller.signal });
+        if (!res.ok) {
+          setErrorStatus(res.status);
+          setHasMore(false);
+          return;
+        }
+        setErrorStatus(null);
         const data = await res.json();
         const newVideos = data.videos || [];
 
@@ -83,6 +92,7 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
     setPage(1);
     setVideos([]);
     setHasMore(true);
+    setErrorStatus(null);
     fetchVideos(1, initialQueryRef.current, ori, sz, true);
   }, [filterKey, fetchVideos]);
 
@@ -96,6 +106,14 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
     setPage(nextPage);
     fetchVideos(nextPage, initialQuery, orientation, size);
   }, [page, loading, hasMore, initialQuery, orientation, size, fetchVideos]);
+
+  const retry = useCallback(() => {
+    setErrorStatus(null);
+    setPage(1);
+    setVideos([]);
+    setHasMore(true);
+    fetchVideos(1, initialQueryRef.current, orientation, size, true);
+  }, [orientation, size, fetchVideos]);
 
   return (
     <>
@@ -111,6 +129,8 @@ export default function VideoGallery({ initialQuery = "" }: VideoGalleryProps) {
 
       {initialLoading || (loading && videos.length === 0) ? (
         <GallerySkeleton />
+      ) : errorStatus !== null && videos.length === 0 ? (
+        <ErrorState {...getFriendlyError(errorStatus)} onRetry={retry} />
       ) : videos.length > 0 ? (
         <MasonryGrid>
           {videos.map((video) => (

@@ -5,6 +5,7 @@ import {
   getCuratedPhotos,
   getPopularVideos,
   getFeaturedCollections,
+  PexelsError,
 } from "@/lib/pexels";
 import PhotoCard from "@/components/PhotoCard";
 import VideoCard from "@/components/VideoCard";
@@ -13,6 +14,8 @@ import MasonryGrid from "@/components/MasonryGrid";
 import GallerySkeleton from "@/components/GallerySkeleton";
 import CollectionListSkeleton from "@/components/CollectionListSkeleton";
 import BannerSection from "@/components/BannerSection";
+import ErrorState from "@/components/ErrorState";
+import { getFriendlyError } from "@/lib/error-messages";
 import type {
   PexelsCollection,
   PexelsPhoto,
@@ -25,24 +28,22 @@ export const metadata: Metadata = {
     "Explore our exceptional collection of high-quality stock photos and videos.",
 };
 
-function SectionError({ message }: { message: string }) {
-  return (
-    <div className="py-8 text-center text-on-surface-variant">{message}</div>
-  );
+function SectionError({ error }: { error: unknown }) {
+  const status = error instanceof PexelsError ? error.status : undefined;
+  return <ErrorState {...getFriendlyError(status)} />;
 }
 
 async function FeaturedPhotos() {
   let photos: PexelsPhoto[] = [];
-  let errorMessage: string | null = null;
+  let loadError: unknown = null;
 
   try {
     photos = (await getCuratedPhotos(1, 10)).photos;
   } catch (error) {
-    errorMessage =
-      error instanceof Error ? error.message : "Failed to load photos";
+    loadError = error;
   }
 
-  if (errorMessage) return <SectionError message={errorMessage} />;
+  if (loadError) return <SectionError error={loadError} />;
 
   return (
     <div className="relative">
@@ -65,16 +66,15 @@ async function FeaturedPhotos() {
 
 async function PopularVideos() {
   let videos: PexelsVideo[] = [];
-  let errorMessage: string | null = null;
+  let loadError: unknown = null;
 
   try {
     videos = (await getPopularVideos(1, 16)).videos;
   } catch (error) {
-    errorMessage =
-      error instanceof Error ? error.message : "Failed to load videos";
+    loadError = error;
   }
 
-  if (errorMessage) return <SectionError message={errorMessage} />;
+  if (loadError) return <SectionError error={loadError} />;
 
   return (
     <div className="relative">
@@ -97,16 +97,15 @@ async function PopularVideos() {
 
 async function FeaturedCollections() {
   let collections: PexelsCollection[] = [];
-  let errorMessage: string | null = null;
+  let loadError: unknown = null;
 
   try {
     collections = (await getFeaturedCollections(1, 18)).collections;
   } catch (error) {
-    errorMessage =
-      error instanceof Error ? error.message : "Failed to load collections";
+    loadError = error;
   }
 
-  if (errorMessage) return <SectionError message={errorMessage} />;
+  if (loadError) return <SectionError error={loadError} />;
 
   return (
     <>

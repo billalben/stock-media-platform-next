@@ -6,6 +6,8 @@ import MasonryGrid from "@/components/MasonryGrid";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import FilterBar from "@/components/FilterBar";
 import GallerySkeleton from "@/components/GallerySkeleton";
+import ErrorState from "@/components/ErrorState";
+import { getFriendlyError } from "@/lib/error-messages";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import type { PexelsPhoto } from "@/types/pexels";
 
@@ -19,6 +21,7 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [errorStatus, setErrorStatus] = useState<number | null>(null);
   const [orientation, setOrientation] = useState("");
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
@@ -56,6 +59,12 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
           : `/api/photos/curated?${params}`;
 
         const res = await fetch(endpoint, { signal: controller.signal });
+        if (!res.ok) {
+          setErrorStatus(res.status);
+          setHasMore(false);
+          return;
+        }
+        setErrorStatus(null);
         const data = await res.json();
         const newPhotos = data.photos || [];
 
@@ -86,6 +95,7 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
     setPage(1);
     setPhotos([]);
     setHasMore(true);
+    setErrorStatus(null);
     fetchPhotos(1, initialQueryRef.current, ori, sz, clr, true);
   }, [filterKey, fetchPhotos]);
 
@@ -109,6 +119,14 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
     fetchPhotos,
   ]);
 
+  const retry = useCallback(() => {
+    setErrorStatus(null);
+    setPage(1);
+    setPhotos([]);
+    setHasMore(true);
+    fetchPhotos(1, initialQueryRef.current, orientation, size, color, true);
+  }, [orientation, size, color, fetchPhotos]);
+
   return (
     <>
       <FilterBar
@@ -122,6 +140,8 @@ export default function PhotoGallery({ initialQuery = "" }: PhotoGalleryProps) {
 
       {initialLoading || (loading && photos.length === 0) ? (
         <GallerySkeleton />
+      ) : errorStatus !== null && photos.length === 0 ? (
+        <ErrorState {...getFriendlyError(errorStatus)} onRetry={retry} />
       ) : photos.length > 0 ? (
         <MasonryGrid>
           {photos.map((photo) => (
