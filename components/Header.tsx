@@ -25,7 +25,7 @@ const NAV_ITEMS = [
   { href: "/favorites", label: "Favorite", Icon: Heart },
 ];
 
-const DETAIL_PATTERN = /^\/(photos|videos|collections)\/\d+$/;
+const DETAIL_PATTERN = /^\/((photos|videos)\/\d+|collections\/.+)$/;
 
 export default function Header() {
   const pathname = usePathname();
